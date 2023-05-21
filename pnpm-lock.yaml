@@ -13,6 +13,9 @@ devDependencies:
   eslint:
     specifier: ^8.41.0
     version: registry.npmjs.org/eslint@8.41.0
+  husky:
+    specifier: ^8.0.3
+    version: registry.npmjs.org/husky@8.0.3
   jest:
     specifier: ^29.5.0
     version: registry.npmjs.org/jest@29.5.0
@@ -2109,6 +2112,14 @@ packages:
     name: human-signals
     version: 2.1.0
     engines: {node: '>=10.17.0'}
+    dev: true
+
+  registry.npmjs.org/husky@8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/husky/-/husky-8.0.3.tgz}
+    name: husky
+    version: 8.0.3
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   registry.npmjs.org/ignore@5.2.4:
