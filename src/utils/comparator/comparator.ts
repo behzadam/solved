@@ -1,26 +1,22 @@
-import { CompareFunction } from "@/types";
-export default class Comparator<TData = unknown> {
-  compare: CompareFunction<TData>;
+import { ComparatorFunction } from "./comparator-function.type";
+import { ComparatorResult } from "./comparator-result.type";
+import { ComparatorInterface } from "./comparator.type";
 
-  constructor(customFunction?: CompareFunction<TData>) {
-    this.compare = customFunction || this.defaultComparator;
+export default class Comparator<TType> implements ComparatorInterface<TType> {
+  private _customComparator?: ComparatorFunction<TType>;
+
+  constructor(comparator?: ComparatorFunction<TType>) {
+    this._customComparator = comparator;
   }
 
-  /**
-   * Default comparison function. It just assumes that "a" and "b" are numbers.
-   * @param a - Just number for default comparison.
-   * @param b - Just number for default comparison.
-   * @returns number: 1 | -1 | 0
-   */
-  defaultComparator<TData>(a: TData, b: TData): number {
-    if (typeof a !== "number" || typeof b !== "number")
-      throw new Error(
-        "Invalid arguments. Please, write your own compare function for this type."
-      );
+  compare(left: TType, right: TType): ComparatorResult {
+    if (this._customComparator) {
+      return this._customComparator(left, right);
+    }
 
-    if (a === b) return 0;
+    if (left === right) return 0;
     // less than or greater than
-    return a < b ? -1 : 1;
+    return left < right ? -1 : 1;
   }
 
   /**
@@ -29,7 +25,7 @@ export default class Comparator<TData = unknown> {
    * @param {*} b
    * @return {boolean}
    */
-  equal(a: TData, b: TData): boolean {
+  equal(a: TType, b: TType): boolean {
     return this.compare(a, b) === 0;
   }
 
@@ -39,7 +35,7 @@ export default class Comparator<TData = unknown> {
    * @param b
    * @returns
    */
-  lessThan(a: TData, b: TData): boolean {
+  lessThan(a: TType, b: TType): boolean {
     return this.compare(a, b) < 0;
   }
 
@@ -49,7 +45,7 @@ export default class Comparator<TData = unknown> {
    * @param {*} b
    * @return {boolean}
    */
-  greaterThan(a: TData, b: TData): boolean {
+  greaterThan(a: TType, b: TType): boolean {
     return this.compare(a, b) > 0;
   }
 
@@ -59,7 +55,7 @@ export default class Comparator<TData = unknown> {
    * @param {*} b
    * @return {boolean}
    */
-  lessThanOrEqual(a: TData, b: TData): boolean {
+  lessThanOrEqual(a: TType, b: TType): boolean {
     return this.lessThan(a, b) || this.equal(a, b);
   }
 
@@ -69,15 +65,7 @@ export default class Comparator<TData = unknown> {
    * @param {*} b
    * @return {boolean}
    */
-  greaterThanOrEqual(a: TData, b: TData): boolean {
+  greaterThanOrEqual(a: TType, b: TType): boolean {
     return this.greaterThan(a, b) || this.equal(a, b);
-  }
-
-  /**
-   * Reverses the comparison order.
-   */
-  reverse(): void {
-    const compareOriginal = this.compare;
-    this.compare = (a: TData, b: TData) => compareOriginal(b, a);
   }
 }

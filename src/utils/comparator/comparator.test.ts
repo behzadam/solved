@@ -40,14 +40,32 @@ describe("Comparator", () => {
     expect(comparator.greaterThanOrEqual("a", "aa")).toBe(false);
     expect(comparator.greaterThanOrEqual("aa", "a")).toBe(true);
     expect(comparator.greaterThanOrEqual("a", "a")).toBe(true);
+  });
 
-    comparator.reverse();
+  it("compares objects with custom comparator function", () => {
+    type Product = {
+      rate: number;
+    };
+    const products: Product[] = [
+      {
+        rate: 1,
+      },
+      {
+        rate: 2,
+      },
+      {
+        rate: 3,
+      },
+    ];
 
-    expect(comparator.equal("a", "b")).toBe(true);
-    expect(comparator.equal("a", "")).toBe(false);
-    expect(comparator.lessThan("b", "aa")).toBe(false);
-    expect(comparator.greaterThanOrEqual("a", "aa")).toBe(true);
-    expect(comparator.greaterThanOrEqual("aa", "a")).toBe(false);
-    expect(comparator.greaterThanOrEqual("a", "a")).toBe(true);
+    const comparator = new Comparator((a: Product, b: Product) => {
+      if (a.rate === b.rate) {
+        return 0;
+      }
+
+      return a.rate < b.rate ? -1 : 1;
+    });
+
+    expect(comparator.greaterThanOrEqual(products[0], products[1])).toBe(false);
   });
 });
