@@ -1,5 +1,4 @@
-type CompareFunction<TData> = (a: TData, b: TData) => number;
-
+import { CompareFunction } from "@/types";
 export default class Comparator<TData = unknown> {
   compare: CompareFunction<TData>;
 
@@ -77,7 +76,7 @@ export default class Comparator<TData = unknown> {
   /**
    * Reverses the comparison order.
    */
-  reverse() {
+  reverse(): void {
     const compareOriginal = this.compare;
     this.compare = (a: TData, b: TData) => compareOriginal(b, a);
   }
