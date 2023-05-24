@@ -1,11 +1,11 @@
-import { Nullable } from "@/types";
-import Comparator, { ComparatorFunction } from "@/utils/comparator";
+import { ComparableFunc, Nullable } from "@/types";
+import Comparator from "@/utils/comparator";
 
 export default abstract class Heap<TType> {
   protected heap: TType[];
   protected compare: Comparator<TType>;
 
-  constructor(comparator?: ComparatorFunction<TType>) {
+  constructor(comparator?: ComparableFunc<TType>) {
     this.heap = [];
     this.compare = new Comparator(comparator);
   }
