@@ -1,5 +1,10 @@
 import { Nullable } from "@/types";
 
+/**
+ * This class uses Map to implement children and
+ * it may would change.
+ * @beta
+ */
 export default class TrieNode {
   public character: string;
   public isWord: boolean;
@@ -15,6 +20,12 @@ export default class TrieNode {
     return this._children.get(character);
   }
 
+  /**
+   * Adds child to current node.
+   * @param character
+   * @param isWord
+   * @returns child node.
+   */
   public addChild(character: string, isWord = false): TrieNode {
     if (!this._children.has(character)) {
       this._children.set(character, new TrieNode(character, isWord));
@@ -27,6 +38,11 @@ export default class TrieNode {
     return childNode;
   }
 
+  /**
+   * Removes child from current node.
+   * @param character
+   * @returns Current node (this).
+   */
   public removeChild(character: string): TrieNode {
     const childNode = this.getChild(character);
 
@@ -39,19 +55,32 @@ export default class TrieNode {
     return this;
   }
 
-  public hasChild(character: string) {
+  /**
+   * Checks if current node has child.
+   * @param character
+   * @returns true if current node has child and false otherwise.
+   */
+  public hasChild(character: string): boolean {
     return this._children.has(character);
   }
 
-  public hasChildren() {
+  /**
+   * Checks if current node has children.
+   * @returns true if current node has children and false otherwise.
+   */
+  public hasChildren(): boolean {
     return this._children.size !== 0;
   }
 
-  public suggestChildren() {
+  /**
+   * Extracts the children key.
+   * @returns array of keys(string) if current node has children or an empty array.
+   */
+  public suggestChildren(): string[] {
     return [...this._children.keys()];
   }
 
-  public toString() {
+  public toString(): string {
     let childrenAsString = this.suggestChildren().toString();
     childrenAsString = childrenAsString ? `:${childrenAsString}` : "";
     const isCompleteString = this.isWord ? "*" : "";
