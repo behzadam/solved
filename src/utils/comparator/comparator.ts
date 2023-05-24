@@ -1,15 +1,23 @@
-import { ComparatorFunction } from "./comparator-function.type";
-import { ComparatorResult } from "./comparator-result.type";
-import { ComparatorInterface } from "./comparator.type";
+import {
+  Comparable,
+  ComparableFunc,
+  ComparableResult,
+} from "@/types/comparable";
 
-export default class Comparator<TType> implements ComparatorInterface<TType> {
-  private _customComparator?: ComparatorFunction<TType>;
+export default class Comparator<TType> implements Comparable<TType> {
+  private _customComparator?: ComparableFunc<TType>;
 
-  constructor(comparator?: ComparatorFunction<TType>) {
+  constructor(comparator?: ComparableFunc<TType>) {
     this._customComparator = comparator;
   }
 
-  compare(left: TType, right: TType): ComparatorResult {
+  /**
+   * Returns a negative value if left is less than right.
+   * Returns zero if left is equal to right.
+   * Returns a positive value if left is greater than right.
+   */
+  compare(left: TType, right: TType): ComparableResult {
+    // checks if a custom comparator passed then run it for first.
     if (this._customComparator) {
       return this._customComparator(left, right);
     }
@@ -20,52 +28,52 @@ export default class Comparator<TType> implements ComparatorInterface<TType> {
   }
 
   /**
-   * Checks if two variables are equal.
-   * @param {*} a
-   * @param {*} b
-   * @return {boolean}
+   * Checks if left and right are equal.
+   * @param left
+   * @param right
+   * @returns true if the variables are equal.
    */
-  equal(a: TType, b: TType): boolean {
-    return this.compare(a, b) === 0;
+  equal(left: TType, right: TType): boolean {
+    return this.compare(left, right) === 0;
   }
 
   /**
-   * Checks if variable "a" is less than "b".
-   * @param a
-   * @param b
-   * @returns
+   * Checks if left is less than right.
+   * @param left
+   * @param right
+   * @returns true if the left is less than the right.
    */
-  lessThan(a: TType, b: TType): boolean {
-    return this.compare(a, b) < 0;
+  lessThan(left: TType, right: TType): boolean {
+    return this.compare(left, right) < 0;
   }
 
   /**
-   * Checks if variable "a" is greater than "b".
-   * @param {*} a
-   * @param {*} b
-   * @return {boolean}
+   * Checks if left is greater than right.
+   * @param left
+   * @param right
+   * @returns true if the left is greater than the right.
    */
-  greaterThan(a: TType, b: TType): boolean {
-    return this.compare(a, b) > 0;
+  greaterThan(left: TType, right: TType): boolean {
+    return this.compare(left, right) > 0;
   }
 
   /**
-   * Checks if variable "a" is less than or equal to "b".
-   * @param {*} a
-   * @param {*} b
-   * @return {boolean}
+   * Checks if left is less than or equal to right.
+   * @param left
+   * @param right
+   * @returns true if left is less than or equal right.
    */
-  lessThanOrEqual(a: TType, b: TType): boolean {
-    return this.lessThan(a, b) || this.equal(a, b);
+  lessThanOrEqual(left: TType, right: TType): boolean {
+    return this.lessThan(left, right) || this.equal(left, right);
   }
 
   /**
-   * Checks if variable "a" is greater than or equal to "b".
-   * @param {*} a
-   * @param {*} b
-   * @return {boolean}
+   * Checks if left is greater than or equal to right.
+   * @param left
+   * @param right
+   * @returns true if left is greater than or equal right.
    */
-  greaterThanOrEqual(a: TType, b: TType): boolean {
-    return this.greaterThan(a, b) || this.equal(a, b);
+  greaterThanOrEqual(left: TType, right: TType): boolean {
+    return this.greaterThan(left, right) || this.equal(left, right);
   }
 }
