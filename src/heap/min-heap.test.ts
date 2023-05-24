@@ -2,7 +2,7 @@ import Comparator from "@/utils/comparator";
 import MinHeap from "./min-heap";
 
 describe("MinHeap", () => {
-  it("should create an empty min heap", () => {
+  it("creates an empty min heap", () => {
     const minHeap = new MinHeap();
 
     expect(minHeap).toBeDefined();
@@ -10,7 +10,7 @@ describe("MinHeap", () => {
     expect(minHeap.isEmpty()).toBe(true);
   });
 
-  it("should add items to the heap and heapify it up", () => {
+  it("adds items to the heap and heapify it up", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(5);
@@ -44,7 +44,7 @@ describe("MinHeap", () => {
     expect(minHeap.toString()).toBe("5,10");
   });
 
-  it("should poll items from the heap and heapify it down", () => {
+  it("polls items from the heap and heapify it down", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(5);
@@ -74,7 +74,7 @@ describe("MinHeap", () => {
     expect(minHeap.toString()).toBe("");
   });
 
-  it("should heapify down through the right branch as well", () => {
+  it("heapifies down through the right branch as well", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(3);
@@ -90,7 +90,7 @@ describe("MinHeap", () => {
     expect(minHeap.toString()).toBe("10,11,12");
   });
 
-  it("should be possible to find item indices in heap", () => {
+  it("finds item indices in heap", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(3);
@@ -106,7 +106,7 @@ describe("MinHeap", () => {
     expect(minHeap.find(11)).toEqual([1, 4]);
   });
 
-  it("should be possible to remove items from heap with heapify down", () => {
+  it("removes items from heap with heapify down", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(3);
@@ -123,7 +123,7 @@ describe("MinHeap", () => {
     expect(minHeap.remove(3).peek()).toEqual(10);
   });
 
-  it("should be possible to remove items from heap with heapify up", () => {
+  it("removes items from heap with heapify up", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(3);
@@ -149,7 +149,7 @@ describe("MinHeap", () => {
     expect(minHeap.remove(4).toString()).toEqual("");
   });
 
-  it("should be possible to remove items from heap with custom finding comparator", () => {
+  it("removes items from heap with custom finding comparator", () => {
     const minHeap = new MinHeap<string>();
     minHeap.add("dddd");
     minHeap.add("ccc");
@@ -170,7 +170,7 @@ describe("MinHeap", () => {
     expect(minHeap.toString()).toBe("a,bb,dddd");
   });
 
-  it("should remove values from heap and correctly re-order the tree", () => {
+  it("removes values from heap and correctly re-order the tree", () => {
     const minHeap = new MinHeap();
 
     minHeap.add(1);
