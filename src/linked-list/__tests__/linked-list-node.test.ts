@@ -1,6 +1,7 @@
 import LinkedListNode from "../linked-list-node";
 import { Item } from "./item.type";
 
+type Item = { key: number; value: string };
 let item: Item;
 beforeAll(() => {
   item = { key: 1, value: "test" };
