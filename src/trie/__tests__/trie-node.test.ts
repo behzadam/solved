@@ -87,4 +87,15 @@ describe("TrieNode", () => {
     trieNode.removeChild("a");
     expect(trieNode.hasChild("a")).toEqual(true);
   });
+
+  it("generates string representation of the current node and children", () => {
+    const trieNode = new TrieNode("a", true);
+    trieNode.addChild("b");
+    trieNode.addChild("c");
+
+    const childNode = trieNode.getChild("c");
+    childNode?.addChild("d");
+    // console.log(trieNode.toString());
+    expect(trieNode.toString()).toBe("a*:b,c");
+  });
 });
