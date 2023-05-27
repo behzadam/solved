@@ -33,56 +33,27 @@ export default class LinkedList<TValue> {
    * @param value
    * @returns
    */
-  public append(value: TValue): LinkedList<TValue> {
+  public append(value: TValue) {
     const newNode = new LinkedListNode(value);
 
-    if (!this.head) {
+    if (!this.head || !this.tail) {
       // initializing
       this.head = newNode;
       this.tail = this.head;
     }
 
-    if (this.tail) {
-      this.tail.next = newNode;
-      this.tail = newNode;
-    }
+    this.tail.next = newNode;
+    this.tail = newNode;
 
     return this;
   }
 
-  public insert(value: TValue, idx: number) {
-    const index = idx < 0 ? 0 : idx;
-    if (index === 0) {
-      this.append(value);
-    } else {
-      let count = 1;
-      let currentNode = this.head;
-      const newNode = new LinkedListNode(value);
-      while (currentNode) {
-        if (count === index) {
-          currentNode = currentNode.next;
-          count += 1;
-        }
-
-        if (currentNode) {
-          newNode.next = currentNode.next;
-          currentNode.next = newNode;
-        } else {
-          if (this.tail) {
-            this.tail.next = newNode;
-            this.tail = newNode;
-          } else {
-            this.head = newNode;
-            this.tail = newNode;
-          }
-        }
-      }
-    }
-    return this;
-  }
-
+  /**
+   * Generates an array of nodes.
+   * @returns array of nodes.
+   */
   toArray() {
-    const nodes = [];
+    const nodes: Array<LinkedListNode<TValue>> = [];
     let currentNode = this.head;
     while (currentNode) {
       nodes.push(currentNode);
