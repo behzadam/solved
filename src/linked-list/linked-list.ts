@@ -1,5 +1,6 @@
 import { ComparableFunc, Nullable } from "@/types";
 import Comparator from "@/utils/comparator";
+import { isDefined } from "@/utils/is-defined";
 import LinkedListNode from "./linked-list-node";
 
 export default class LinkedList<TValue> {
@@ -14,11 +15,22 @@ export default class LinkedList<TValue> {
   }
 
   /**
+   * Function generator that returns nodes.
+   */
+  private *nodes(): Generator<LinkedListNode<TValue>, void, unknown> {
+    let currentNode = this.head;
+    while (currentNode) {
+      yield currentNode;
+      currentNode = currentNode.next;
+    }
+  }
+
+  /**
    * Adds a node to the beginning of the list.
    * @param value
-   * @returns
+   * @returns this
    */
-  public prepend(value: TValue) {
+  public prepend(value: TValue): LinkedList<TValue> {
     const newNode = new LinkedListNode<TValue>(value, this.head);
     this.head = newNode;
 
@@ -31,19 +43,23 @@ export default class LinkedList<TValue> {
   /**
    * Adds a node to the end of the list.
    * @param value
-   * @returns
+   * @returns this
    */
-  public append(value: TValue) {
+  public append(value: TValue): LinkedList<TValue> {
     const newNode = new LinkedListNode(value);
 
     if (!this.head || !this.tail) {
       // initializing
       this.head = newNode;
-      this.tail = this.head;
+      this.tail = newNode;
     }
 
+    // change the current tail next reference to the new node.
     this.tail.next = newNode;
+    // now the new node is current tail.
     this.tail = newNode;
+    // change the current tail next to null to avoid circle reference.
+    this.tail.next = null;
 
     return this;
   }
@@ -53,7 +69,7 @@ export default class LinkedList<TValue> {
    * @param value
    * @returns deleted nod or null.
    */
-  public delete(value: TValue) {
+  public delete(value: TValue): Nullable<LinkedListNode<TValue>> {
     if (!this.head) return null;
 
     let deletedNode = null;
@@ -86,7 +102,7 @@ export default class LinkedList<TValue> {
    * Deletes the linked list tail.
    * @returns deleted node or null;
    */
-  deleteTail() {
+  public deleteTail(): Nullable<LinkedListNode<TValue>> {
     if (!this.tail) return null;
 
     const deletedTail = this.tail;
@@ -116,7 +132,7 @@ export default class LinkedList<TValue> {
    * Deletes the linked list head.
    * @returns deleted node or null;
    */
-  deleteHead() {
+  public deleteHead(): Nullable<LinkedListNode<TValue>> {
     if (!this.head) return null;
 
     const deletedHead = this.head;
@@ -130,17 +146,49 @@ export default class LinkedList<TValue> {
   }
 
   /**
+   * Finds a node value and comparator or custom compare function.
+   * @param value value to find.
+   * @param callback optional function that returns true or false.
+   * @returns node or null.
+   */
+  public find(
+    value: TValue,
+    callback?: (value: TValue) => boolean
+  ): Nullable<LinkedListNode<TValue>> {
+    if (!this.head) return null;
+
+    let currentNode: Nullable<LinkedListNode<TValue>> = this.head;
+    while (currentNode) {
+      // If callback is specified then try to find node by callback.
+      if (isDefined(callback) && callback(currentNode.value)) {
+        return currentNode;
+      }
+      // If value is specified then try to compare by value.
+      if (isDefined(value) && this._compare.equal(currentNode.value, value)) {
+        return currentNode;
+      }
+      currentNode = currentNode.next;
+    }
+
+    return null;
+  }
+
+  /**
+   * Creates a linked list by an array.
+   * @param values
+   * @returns this
+   */
+  public fromArray(values: TValue[]): LinkedList<TValue> {
+    values.forEach((value) => this.append(value));
+    return this;
+  }
+
+  /**
    * Generates an array of nodes.
    * @returns array of nodes.
    */
-  toArray() {
-    const nodes: Array<LinkedListNode<TValue>> = [];
-    let currentNode = this.head;
-    while (currentNode) {
-      nodes.push(currentNode);
-      currentNode = currentNode.next;
-    }
-    return nodes;
+  public toArray(): LinkedListNode<TValue>[] {
+    return Array.from(this.nodes());
   }
 
   /**
@@ -148,7 +196,7 @@ export default class LinkedList<TValue> {
    * @param callback - Optional callback function
    * @returns string
    */
-  toString(callback?: (value: TValue) => string) {
+  public toString(callback?: (value: TValue) => string): string {
     return this.toArray()
       .map((node) => node.toString(callback))
       .toString();
