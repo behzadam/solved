@@ -49,6 +49,40 @@ export default class LinkedList<TValue> {
   }
 
   /**
+   * Delete a node by value.
+   * @param value
+   * @returns deleted nod or null.
+   */
+  public delete(value: TValue) {
+    if (!this.head) return null;
+
+    let deletedNode = null;
+    while (this.head && this._compare.equal(this.head.value, value)) {
+      deletedNode = this.head;
+      this.head = this.head.next;
+    }
+
+    let currentNode = this.head;
+    if (currentNode) {
+      // If next node must be deleted then make next node to be a next next one.
+      while (currentNode.next) {
+        if (this._compare.equal(currentNode.next.value, value)) {
+          deletedNode = currentNode.next;
+          currentNode.next = currentNode.next.next;
+        } else {
+          currentNode = currentNode.next;
+        }
+      }
+    }
+
+    if (this.tail && this._compare.equal(this.tail.value, value)) {
+      this.tail = currentNode;
+    }
+
+    return deletedNode;
+  }
+
+  /**
    * Generates an array of nodes.
    * @returns array of nodes.
    */
