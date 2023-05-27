@@ -113,6 +113,23 @@ export default class LinkedList<TValue> {
   }
 
   /**
+   * Deletes the linked list head.
+   * @returns deleted node or null;
+   */
+  deleteHead() {
+    if (!this.head) return null;
+
+    const deletedHead = this.head;
+    if (this.head.next) {
+      this.head = this.head.next;
+    } else {
+      this.head = null;
+      this.tail = null;
+    }
+    return deletedHead;
+  }
+
+  /**
    * Generates an array of nodes.
    * @returns array of nodes.
    */
@@ -126,6 +143,11 @@ export default class LinkedList<TValue> {
     return nodes;
   }
 
+  /**
+   * Invokes an optional callback function for each node and returns comma separated string.
+   * @param callback - Optional callback function
+   * @returns string
+   */
   toString(callback?: (value: TValue) => string) {
     return this.toArray()
       .map((node) => node.toString(callback))
