@@ -49,16 +49,16 @@ export default class LinkedList<TValue> {
     const newNode = new LinkedListNode(value);
 
     if (!this.head || !this.tail) {
-      // initializing
+      // Initializing
       this.head = newNode;
       this.tail = newNode;
     }
 
-    // change the current tail next reference to the new node.
+    // Change the current tail next reference to the new node.
     this.tail.next = newNode;
-    // now the new node is current tail.
+    // Now the new node is current tail.
     this.tail = newNode;
-    // change the current tail next to null to avoid circle reference.
+    // Change the current tail next to null to avoid circle reference.
     this.tail.next = null;
 
     return this;
@@ -171,6 +171,30 @@ export default class LinkedList<TValue> {
     }
 
     return null;
+  }
+
+  /**
+   * Reverses linked list
+   */
+  public reverse(): void {
+    let currentNode = this.head;
+    let nextNode: Nullable<LinkedListNode<TValue>>;
+    let prevNode: Nullable<LinkedListNode<TValue>>;
+
+    while (currentNode) {
+      // Store next node.
+      nextNode = currentNode.next;
+      // Change next node of the current node so it would link to previous node.
+      currentNode.next = prevNode;
+
+      // Move prevNode and currentNode nodes one step forward.
+      prevNode = currentNode;
+      currentNode = nextNode;
+    }
+
+    // Reset head and tail.
+    this.tail = this.head;
+    this.head = prevNode;
   }
 
   /**
