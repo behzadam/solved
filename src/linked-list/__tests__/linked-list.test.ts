@@ -6,6 +6,29 @@ describe("LinkedList", () => {
     expect(linkedList.toArray()).toStrictEqual([]);
   });
 
+  it("creates lined list with complex type and custom stringify function.", () => {
+    type Item = { key: string; value: number };
+    const linkedList = new LinkedList<Item>();
+
+    const nodeValue1 = { key: "key1", value: 1 } as Item;
+    const nodeValue2 = { key: "key2", value: 2 } as Item;
+
+    linkedList.append(nodeValue1).prepend(nodeValue2);
+
+    expect(linkedList.head?.value).toStrictEqual(nodeValue2);
+    expect(linkedList.tail?.value).toStrictEqual(nodeValue1);
+
+    const itemStringifier = (item: Item): string => `${item.key}:${item.value}`;
+    expect(linkedList.toString(itemStringifier)).toBe("key2:2,key1:1");
+  });
+
+  it("creates linked list from array", () => {
+    const linkedList = new LinkedList();
+    linkedList.fromArray([1, 1, 2, 3, 3, 3, 4, 5]);
+
+    expect(linkedList.toString()).toBe("1,1,2,3,3,3,4,5");
+  });
+
   it("prepends node to linked list", () => {
     const linkedList = new LinkedList();
 
@@ -135,5 +158,29 @@ describe("LinkedList", () => {
     expect(linkedList.toString()).toBe("");
     expect(linkedList.head).toBeNull();
     expect(linkedList.tail).toBeNull();
+  });
+
+  it("finds node by custom compare function", () => {
+    type Item = { key: number; value: string };
+    const comparatorFunction = (a: Item, b: Item) => {
+      if (a.value === b.value) {
+        return 0;
+      }
+      return a.value < b.value ? -1 : 1;
+    };
+
+    const linkedList = new LinkedList<Item>(comparatorFunction);
+
+    linkedList
+      .append({ key: 1, value: "test1" })
+      .append({ key: 2, value: "test2" })
+      .append({ key: 3, value: "test3" });
+
+    const node = linkedList.find({ key: 2, value: "test2" });
+
+    expect(node).toBeDefined();
+    expect(node?.value?.key).toBe(2);
+    expect(node?.value?.value).toBe("test2");
+    expect(linkedList.find({ key: 2, value: "test5" })).toBeNull();
   });
 });
