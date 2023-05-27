@@ -92,14 +92,14 @@ describe("LinkedList", () => {
 
     const deletedNode1 = linkedList.deleteHead();
 
-    expect(deletedNode1.value).toBe(1);
+    expect(deletedNode1?.value).toBe(1);
     expect(linkedList.toString()).toBe("2");
     expect(linkedList.head?.toString()).toBe("2");
     expect(linkedList.tail?.toString()).toBe("2");
 
     const deletedNode2 = linkedList.deleteHead();
 
-    expect(deletedNode2.value).toBe(2);
+    expect(deletedNode2?.value).toBe(2);
     expect(linkedList.toString()).toBe("");
     expect(linkedList.head).toBeNull();
     expect(linkedList.tail).toBeNull();
