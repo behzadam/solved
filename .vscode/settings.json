@@ -6,5 +6,6 @@
     "source.fixAll.eslint": true,
     "source.fixAll.format": true,
     "source.organizeImports": true
-  }
+  },
+  "jest.autoRun": { "watch": false, "onSave": "test-src-file" }
 }
