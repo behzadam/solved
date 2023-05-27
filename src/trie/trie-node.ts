@@ -3,7 +3,7 @@ import { Nullable } from "@/types";
 /**
  * This class uses Map to implement children and
  * it may would change.
- * @beta
+ * @alpha
  */
 export default class TrieNode {
   public character: string;
@@ -80,6 +80,16 @@ export default class TrieNode {
     return [...this._children.keys()];
   }
 
+  /**
+   * Generates a string representation of the current node and children.
+   * `*`: represent a complete word.
+   * ':': separates node from children.
+   * ',': separates node children.
+   *
+   * @example
+   * See test cases.
+   * @returns string of node with children or just node.
+   */
   public toString(): string {
     let childrenAsString = this.suggestChildren().toString();
     childrenAsString = childrenAsString ? `:${childrenAsString}` : "";
