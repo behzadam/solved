@@ -176,12 +176,12 @@ describe("LinkedList", () => {
       .append({ key: 2, value: "test2" })
       .append({ key: 3, value: "test3" });
 
-    const node = linkedList.find({ key: 2, value: "test2" });
+    const node = linkedList.find({ value: { key: 2, value: "test2" } });
 
     expect(node).toBeDefined();
     expect(node?.value?.key).toBe(2);
     expect(node?.value?.value).toBe("test2");
-    expect(linkedList.find({ key: 2, value: "test5" })).toBeNull();
+    expect(linkedList.find({ value: { key: 2, value: "test5" } })).toBeNull();
   });
 
   it("reverses linked list", () => {

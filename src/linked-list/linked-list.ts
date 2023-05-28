@@ -148,19 +148,22 @@ export default class LinkedList<TValue> {
   /**
    * Finds a node value and comparator or custom compare function.
    * @param value value to find.
-   * @param callback optional function that returns true or false.
+   * @param condition optional function that returns true or false.
    * @returns node or null.
    */
-  public find(
-    value: TValue,
-    callback?: (value: TValue) => boolean
-  ): Nullable<LinkedListNode<TValue>> {
+  public find({
+    value,
+    condition,
+  }: Partial<{
+    value: TValue;
+    condition: (value: TValue) => boolean;
+  }>): Nullable<LinkedListNode<TValue>> {
     if (!this.head) return null;
 
     let currentNode: Nullable<LinkedListNode<TValue>> = this.head;
     while (currentNode) {
-      // If callback is specified then try to find node by callback.
-      if (isDefined(callback) && callback(currentNode.value)) {
+      // If condition is specified then try to find node by condition.
+      if (isDefined(condition) && condition(currentNode.value)) {
         return currentNode;
       }
       // If value is specified then try to compare by value.
