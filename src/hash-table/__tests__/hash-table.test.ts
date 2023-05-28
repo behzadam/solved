@@ -1,9 +1,10 @@
 import HashTable from "../HashTable";
 
+const defaultHashTableSize = 32;
 describe("HashTable", () => {
   it("creates hash table of certain size", () => {
     const defaultHashTable = new HashTable();
-    expect(defaultHashTable.buckets.length).toBe(26);
+    expect(defaultHashTable.buckets.length).toBe(defaultHashTableSize);
 
     const biggerHashTable = new HashTable(64);
     expect(biggerHashTable.buckets.length).toBe(64);
