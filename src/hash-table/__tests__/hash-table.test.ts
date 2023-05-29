@@ -1,5 +1,5 @@
 import { Pair } from "@/types/pair";
-import HashTable from "../HashTable";
+import HashTable from "../hash-table";
 
 const defaultHashTableSize = 32;
 describe("HashTable", () => {
