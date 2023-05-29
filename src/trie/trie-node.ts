@@ -16,6 +16,11 @@ export default class TrieNode {
     this._children = new Map<string, TrieNode>();
   }
 
+  /**
+   * Returns node child.
+   * @param character
+   * @returns child or node.
+   */
   public getChild(character: string): Nullable<TrieNode> {
     return this._children.get(character);
   }
