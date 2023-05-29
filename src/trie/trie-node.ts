@@ -1,4 +1,4 @@
-import HashTable from "@/hash-table/HashTable";
+import HashTable from "@/hash-table/hash-table";
 import { Nullable } from "@/types";
 
 /**
