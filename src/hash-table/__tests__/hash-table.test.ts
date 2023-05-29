@@ -92,7 +92,7 @@ describe("HashTable", () => {
   });
 
   it("gets all the values in case of hash collision", () => {
-    const hashTable = new HashTable(3);
+    const hashTable = new HashTable<string>(3);
 
     // Keys `ab` and `ba` in current implementation should result in one hash (one bucket).
     // We need to make sure that several items from one bucket will be serialized.
