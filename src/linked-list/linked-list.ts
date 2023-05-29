@@ -17,7 +17,7 @@ export default class LinkedList<TValue> {
   /**
    * Function generator that returns nodes.
    */
-  private *nodes(): Generator<LinkedListNode<TValue>, void, unknown> {
+  private *traverse(): Generator<LinkedListNode<TValue>, void, unknown> {
     let currentNode = this.head;
     while (currentNode) {
       yield currentNode;
@@ -215,7 +215,7 @@ export default class LinkedList<TValue> {
    * @returns array of nodes.
    */
   public toArray(): LinkedListNode<TValue>[] {
-    return Array.from(this.nodes());
+    return Array.from(this.traverse());
   }
 
   /**
