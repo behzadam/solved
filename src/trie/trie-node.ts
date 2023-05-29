@@ -1,3 +1,4 @@
+import HashTable from "@/hash-table/hash-table";
 import { Nullable } from "@/types";
 
 /**
@@ -8,14 +9,19 @@ import { Nullable } from "@/types";
 export default class TrieNode {
   public character: string;
   public isWord: boolean;
-  private _children: Map<string, TrieNode>;
+  private _children: HashTable<TrieNode>;
 
   constructor(character: string, isWord = false) {
     this.character = character;
     this.isWord = isWord;
-    this._children = new Map<string, TrieNode>();
+    this._children = new HashTable();
   }
 
+  /**
+   * Returns node child.
+   * @param character
+   * @returns child or node.
+   */
   public getChild(character: string): Nullable<TrieNode> {
     return this._children.get(character);
   }
@@ -69,7 +75,7 @@ export default class TrieNode {
    * @returns true if current node has children and false otherwise.
    */
   public hasChildren(): boolean {
-    return this._children.size !== 0;
+    return this._children.getKeys().length !== 0;
   }
 
   /**
@@ -77,7 +83,7 @@ export default class TrieNode {
    * @returns array of keys(string) if current node has children or an empty array.
    */
   public suggestChildren(): string[] {
-    return [...this._children.keys()];
+    return [...this._children.getKeys()];
   }
 
   /**

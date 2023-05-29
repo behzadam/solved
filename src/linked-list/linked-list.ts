@@ -17,7 +17,7 @@ export default class LinkedList<TValue> {
   /**
    * Function generator that returns nodes.
    */
-  private *nodes(): Generator<LinkedListNode<TValue>, void, unknown> {
+  private *traverse(): Generator<LinkedListNode<TValue>, void, unknown> {
     let currentNode = this.head;
     while (currentNode) {
       yield currentNode;
@@ -49,16 +49,16 @@ export default class LinkedList<TValue> {
     const newNode = new LinkedListNode(value);
 
     if (!this.head || !this.tail) {
-      // initializing
+      // Initializing
       this.head = newNode;
       this.tail = newNode;
     }
 
-    // change the current tail next reference to the new node.
+    // Change the current tail next reference to the new node.
     this.tail.next = newNode;
-    // now the new node is current tail.
+    // Now the new node is current tail.
     this.tail = newNode;
-    // change the current tail next to null to avoid circle reference.
+    // Change the current tail next to null to avoid circle reference.
     this.tail.next = null;
 
     return this;
@@ -148,19 +148,22 @@ export default class LinkedList<TValue> {
   /**
    * Finds a node value and comparator or custom compare function.
    * @param value value to find.
-   * @param callback optional function that returns true or false.
+   * @param condition optional function that returns true or false.
    * @returns node or null.
    */
-  public find(
-    value: TValue,
-    callback?: (value: TValue) => boolean
-  ): Nullable<LinkedListNode<TValue>> {
+  public find({
+    value,
+    condition,
+  }: Partial<{
+    value: TValue;
+    condition: (value: TValue) => boolean;
+  }>): Nullable<LinkedListNode<TValue>> {
     if (!this.head) return null;
 
     let currentNode: Nullable<LinkedListNode<TValue>> = this.head;
     while (currentNode) {
-      // If callback is specified then try to find node by callback.
-      if (isDefined(callback) && callback(currentNode.value)) {
+      // If condition is specified then try to find node by condition.
+      if (isDefined(condition) && condition(currentNode.value)) {
         return currentNode;
       }
       // If value is specified then try to compare by value.
@@ -171,6 +174,30 @@ export default class LinkedList<TValue> {
     }
 
     return null;
+  }
+
+  /**
+   * Reverses linked list
+   */
+  public reverse(): void {
+    let currentNode = this.head;
+    let nextNode: Nullable<LinkedListNode<TValue>>;
+    let prevNode: Nullable<LinkedListNode<TValue>>;
+
+    while (currentNode) {
+      // Store next node.
+      nextNode = currentNode.next;
+      // Change next node of the current node so it would link to previous node.
+      currentNode.next = prevNode;
+
+      // Move prevNode and currentNode nodes one step forward.
+      prevNode = currentNode;
+      currentNode = nextNode;
+    }
+
+    // Reset head and tail.
+    this.tail = this.head;
+    this.head = prevNode;
   }
 
   /**
@@ -188,7 +215,7 @@ export default class LinkedList<TValue> {
    * @returns array of nodes.
    */
   public toArray(): LinkedListNode<TValue>[] {
-    return Array.from(this.nodes());
+    return Array.from(this.traverse());
   }
 
   /**
