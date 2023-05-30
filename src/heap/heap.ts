@@ -1,11 +1,11 @@
-import { ComparableFunc, Nullable } from "@/types";
-import Comparator from "@/utils/comparator";
+import { Comparator, ComparatorFunction } from "@/comparator";
+import { Nullable } from "@/types";
 
-export default abstract class Heap<TType> {
-  protected heap: TType[];
-  protected compare: Comparator<TType>;
+export default abstract class Heap<TItem> {
+  protected heap: TItem[];
+  protected compare: Comparator<TItem>;
 
-  constructor(comparator?: ComparableFunc<TType>) {
+  constructor(comparator?: ComparatorFunction<TItem>) {
     this.heap = [];
     this.compare = new Comparator(comparator);
   }
@@ -34,15 +34,15 @@ export default abstract class Heap<TType> {
     return this.getRightChildIndex(parentIndex) < this.heap.length;
   }
 
-  protected leftChild(parentIndex: number): TType {
+  protected leftChild(parentIndex: number): TItem {
     return this.heap[this.getLeftChildIndex(parentIndex)];
   }
 
-  protected rightChild(parentIndex: number): TType {
+  protected rightChild(parentIndex: number): TItem {
     return this.heap[this.getRightChildIndex(parentIndex)];
   }
 
-  protected parent(childIndex: number): TType {
+  protected parent(childIndex: number): TItem {
     return this.heap[this.getParentIndex(childIndex)];
   }
 
@@ -60,10 +60,7 @@ export default abstract class Heap<TType> {
 
     while (
       this.hasParent(currentIndex) &&
-      !this.pairIsInCorrectOrder(
-        this.parent(currentIndex),
-        this.heap[currentIndex]
-      )
+      !this.order(this.parent(currentIndex), this.heap[currentIndex])
     ) {
       this.swap(currentIndex, this.getParentIndex(currentIndex));
       currentIndex = this.getParentIndex(currentIndex);
@@ -80,19 +77,14 @@ export default abstract class Heap<TType> {
     while (this.hasLeftChild(currentIndex)) {
       if (
         this.hasRightChild(currentIndex) &&
-        this.pairIsInCorrectOrder(
-          this.rightChild(currentIndex),
-          this.leftChild(currentIndex)
-        )
+        this.order(this.rightChild(currentIndex), this.leftChild(currentIndex))
       ) {
         nextIndex = this.getRightChildIndex(currentIndex);
       } else {
         nextIndex = this.getLeftChildIndex(currentIndex);
       }
 
-      if (
-        this.pairIsInCorrectOrder(this.heap[currentIndex], this.heap[nextIndex])
-      ) {
+      if (this.order(this.heap[currentIndex], this.heap[nextIndex])) {
         break;
       }
 
@@ -101,17 +93,14 @@ export default abstract class Heap<TType> {
     }
   }
 
-  protected pairIsInCorrectOrder(
-    firstElement: TType,
-    secondElement: TType
-  ): boolean {
+  protected order(left: TItem, right: TItem): boolean {
     throw new Error(`
       You have to implement heap pair comparision method
-      for ${firstElement} and ${secondElement} values.
+      for ${left} and ${right} values.
       `);
   }
 
-  find(item: TType, comparator = this.compare): number[] {
+  find(item: TItem, comparator = this.compare): number[] {
     const foundItemIndices: number[] = [];
     for (let itemIndex = 0; itemIndex < this.size(); itemIndex += 1) {
       if (comparator.equal(item, this.heap[itemIndex])) {
@@ -121,30 +110,30 @@ export default abstract class Heap<TType> {
     return foundItemIndices;
   }
 
-  add(item: TType): Heap<TType> {
+  add(item: TItem): Heap<TItem> {
     this.heap.push(item);
     this.heapifyUp();
     return this;
   }
 
-  peek(): Nullable<TType> {
+  peek(): Nullable<TItem> {
     if (this.size() === 0) return null;
     return this.heap[0];
   }
 
-  poll(): Nullable<TType> {
+  poll(): Nullable<TItem> {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
 
     const item = this.heap[0];
     // Move the last element from the end to the head.
-    this.heap[0] = this.heap.pop() as TType;
+    this.heap[0] = this.heap.pop() as TItem;
     this.heapifyDown();
 
     return item;
   }
 
-  remove(item: TType, comparator = this.compare): Heap<TType> {
+  remove(item: TItem, comparator = this.compare): Heap<TItem> {
     // Find number of items to remove.
     const numberOfItemsToRemove = this.find(item, comparator).length;
 
@@ -159,15 +148,14 @@ export default abstract class Heap<TType> {
         this.heap.pop();
       } else {
         // Move last element in heap to the vacant (removed) position.
-        this.heap[indexToRemove] = this.heap.pop() as TType;
+        this.heap[indexToRemove] = this.heap.pop() as TItem;
         // Get parent.
         const parentItem = this.parent(indexToRemove);
         // If there is no parent or parent is in correct order with the node
         // we're going to delete then heapify down. Otherwise heapify up.
         if (
           this.hasLeftChild(indexToRemove) &&
-          (!parentItem ||
-            this.pairIsInCorrectOrder(parentItem, this.heap[indexToRemove]))
+          (!parentItem || this.order(parentItem, this.heap[indexToRemove]))
         ) {
           this.heapifyDown(indexToRemove);
         } else {

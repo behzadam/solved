@@ -6,11 +6,11 @@ export default class MinHeap<TData> extends Heap<TData> {
    * For MinHeap the first element must be always smaller or equal.
    * For MaxHeap the first element must be always bigger or equal.
    *
-   * @param {*} firstElement
-   * @param {*} secondElement
+   * @param {*} left
+   * @param {*} right
    * @return {boolean}
    */
-  pairIsInCorrectOrder(firstElement: TData, secondElement: TData): boolean {
-    return this.compare.lessThanOrEqual(firstElement, secondElement);
+  order(left: TData, right: TData): boolean {
+    return this.compare.lessThanOrEqual(left, right);
   }
 }
