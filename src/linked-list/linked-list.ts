@@ -1,5 +1,6 @@
-import { ComparableFunc, Nullable } from "@/types";
-import Comparator from "@/utils/comparator";
+import Comparator from "@/comparator/comparator";
+import { ComparatorFunction } from "@/comparator/comparator-function";
+import { Nullable } from "@/types";
 import { isDefined } from "@/utils/is-defined";
 import LinkedListNode from "./linked-list-node";
 
@@ -8,7 +9,7 @@ export default class LinkedList<TValue> {
   public tail: Nullable<LinkedListNode<TValue>>;
   private _compare: Comparator<TValue>;
 
-  constructor(comparator?: ComparableFunc<TValue>) {
+  constructor(comparator?: ComparatorFunction<TValue>) {
     this.head = null;
     this.tail = null;
     this._compare = new Comparator(comparator);
