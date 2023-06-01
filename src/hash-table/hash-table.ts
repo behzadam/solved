@@ -16,10 +16,12 @@ export default class HashTable<TValue = unknown> {
   }
 
   private hash(key: string) {
-    let hash = 0;
-    for (let i = 0; i < key.length; i++) {
-      hash += key.charCodeAt(i);
-    }
+    const hash = Array.from(key).reduce(
+      (hashAccumulator, keySymbol) => hashAccumulator + keySymbol.charCodeAt(0),
+      0
+    );
+
+    // Reduce hash number so it would fit hash table size.
     return hash % this.buckets.length;
   }
 
@@ -47,8 +49,8 @@ export default class HashTable<TValue = unknown> {
    */
   delete(key: string): Nullable<LinkedListNode<Pair<TValue>>> {
     const keyHash = this.hash(key);
-    const bucket = this.buckets[keyHash];
     delete this._keys[key];
+    const bucket = this.buckets[keyHash];
     const node = bucket.find({
       condition: (nodeValue) => nodeValue?.key === key,
     });
