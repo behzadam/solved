@@ -4,12 +4,12 @@ import { Nullable } from "@/types";
 import { isDefined } from "@/utils/is-defined";
 import LinkedListNode from "./linked-list-node";
 
-export default class LinkedList<TValue> {
-  public head: Nullable<LinkedListNode<TValue>>;
-  public tail: Nullable<LinkedListNode<TValue>>;
-  private _compare: Comparator<TValue>;
+export default class LinkedList<Element> {
+  public head: Nullable<LinkedListNode<Element>>;
+  public tail: Nullable<LinkedListNode<Element>>;
+  private _compare: Comparator<Element>;
 
-  constructor(comparator?: ComparatorFunction<TValue>) {
+  constructor(comparator?: ComparatorFunction<Element>) {
     this.head = null;
     this.tail = null;
     this._compare = new Comparator(comparator);
@@ -18,7 +18,7 @@ export default class LinkedList<TValue> {
   /**
    * Function generator that returns nodes.
    */
-  private *traverse(): Generator<LinkedListNode<TValue>, void, unknown> {
+  private *traverse(): Generator<LinkedListNode<Element>, void, unknown> {
     let currentNode = this.head;
     while (currentNode) {
       yield currentNode;
@@ -31,8 +31,8 @@ export default class LinkedList<TValue> {
    * @param value
    * @returns this
    */
-  public prepend(value: TValue): LinkedList<TValue> {
-    const newNode = new LinkedListNode<TValue>(value, this.head);
+  public prepend(value: Element): LinkedList<Element> {
+    const newNode = new LinkedListNode<Element>(value, this.head);
     this.head = newNode;
 
     if (!this.tail) {
@@ -46,21 +46,16 @@ export default class LinkedList<TValue> {
    * @param value
    * @returns this
    */
-  public append(value: TValue): LinkedList<TValue> {
+  public append(value: Element): LinkedList<Element> {
     const newNode = new LinkedListNode(value);
 
-    if (!this.head || !this.tail) {
-      // Initializing
+    if (!this.tail) {
       this.head = newNode;
-      this.tail = newNode;
+      this.tail = this.head;
+    } else {
+      this.tail.next = newNode;
+      this.tail = this.tail?.next;
     }
-
-    // Change the current tail next reference to the new node.
-    this.tail.next = newNode;
-    // Now the new node is current tail.
-    this.tail = newNode;
-    // Change the current tail next to null to avoid circle reference.
-    this.tail.next = null;
 
     return this;
   }
@@ -70,7 +65,7 @@ export default class LinkedList<TValue> {
    * @param value
    * @returns deleted nod or null.
    */
-  public delete(value: TValue): Nullable<LinkedListNode<TValue>> {
+  public delete(value: Element): Nullable<LinkedListNode<Element>> {
     if (!this.head) return null;
 
     let deletedNode = null;
@@ -103,7 +98,7 @@ export default class LinkedList<TValue> {
    * Deletes the linked list tail.
    * @returns deleted node or null;
    */
-  public deleteTail(): Nullable<LinkedListNode<TValue>> {
+  public deleteTail(): Nullable<LinkedListNode<Element>> {
     if (!this.tail) return null;
 
     const deletedTail = this.tail;
@@ -133,7 +128,7 @@ export default class LinkedList<TValue> {
    * Deletes the linked list head.
    * @returns deleted node or null;
    */
-  public deleteHead(): Nullable<LinkedListNode<TValue>> {
+  public deleteHead(): Nullable<LinkedListNode<Element>> {
     if (!this.head) return null;
 
     const deletedHead = this.head;
@@ -156,12 +151,12 @@ export default class LinkedList<TValue> {
     value,
     condition,
   }: Partial<{
-    value: TValue;
-    condition: (value: TValue) => boolean;
-  }>): Nullable<LinkedListNode<TValue>> {
+    value: Element;
+    condition: (value: Element) => boolean;
+  }>): Nullable<LinkedListNode<Element>> {
     if (!this.head) return null;
 
-    let currentNode: Nullable<LinkedListNode<TValue>> = this.head;
+    let currentNode: Nullable<LinkedListNode<Element>> = this.head;
     while (currentNode) {
       // If condition is specified then try to find node by condition.
       if (isDefined(condition) && condition(currentNode.value)) {
@@ -182,8 +177,8 @@ export default class LinkedList<TValue> {
    */
   public reverse(): void {
     let currentNode = this.head;
-    let nextNode: Nullable<LinkedListNode<TValue>>;
-    let prevNode: Nullable<LinkedListNode<TValue>>;
+    let nextNode: Nullable<LinkedListNode<Element>>;
+    let prevNode: Nullable<LinkedListNode<Element>>;
 
     while (currentNode) {
       // Store next node.
@@ -206,7 +201,7 @@ export default class LinkedList<TValue> {
    * @param values
    * @returns this
    */
-  public fromArray(values: TValue[]): LinkedList<TValue> {
+  public fromArray(values: Element[]): LinkedList<Element> {
     values.forEach((value) => this.append(value));
     return this;
   }
@@ -215,7 +210,7 @@ export default class LinkedList<TValue> {
    * Generates an array of nodes.
    * @returns array of nodes.
    */
-  public toArray(): LinkedListNode<TValue>[] {
+  public toArray(): LinkedListNode<Element>[] {
     return Array.from(this.traverse());
   }
 
@@ -224,7 +219,7 @@ export default class LinkedList<TValue> {
    * @param callback - Optional callback function
    * @returns string
    */
-  public toString(callback?: (value: TValue) => string): string {
+  public toString(callback?: (value: Element) => string): string {
     return this.toArray()
       .map((node) => node.toString(callback))
       .toString();

@@ -4,26 +4,28 @@ import { Nullable } from "@/types";
 import { Pair } from "@/types/pair";
 
 const defaultHashTableSize = 32;
-export default class HashTable<TValue = unknown> {
+export default class HashTable<Element = unknown> {
   private _keys: Record<string, number>;
-  public buckets: LinkedList<Pair<TValue>>[];
+  public buckets: LinkedList<Pair<Element>>[];
 
   constructor(size = defaultHashTableSize) {
     this._keys = {};
-    this.buckets = new Array(size)
-      .fill({ key: null, value: null } as Pair<TValue>)
-      .map(() => new LinkedList<Pair<TValue>>());
+    this.buckets = Array(size)
+      .fill(null)
+      .map(() => new LinkedList());
   }
 
   private hash(key: string) {
-    let hash = 0;
-    for (let i = 0; i < key.length; i++) {
-      hash += key.charCodeAt(i);
-    }
+    const hash = Array.from(key).reduce(
+      (hashAccumulator, keySymbol) => hashAccumulator + keySymbol.charCodeAt(0),
+      0
+    );
+
+    // Reduce hash number so it would fit hash table size.
     return hash % this.buckets.length;
   }
 
-  set(key: string, value: TValue): void {
+  set(key: string, value: Element): void {
     const keyHash = this.hash(key);
     this._keys[key] = keyHash;
     const bucket = this.buckets[keyHash];
@@ -45,10 +47,10 @@ export default class HashTable<TValue = unknown> {
    * @param key
    * @returns deleted nod or null.
    */
-  delete(key: string): Nullable<LinkedListNode<Pair<TValue>>> {
+  delete(key: string): Nullable<LinkedListNode<Pair<Element>>> {
     const keyHash = this.hash(key);
-    const bucket = this.buckets[keyHash];
     delete this._keys[key];
+    const bucket = this.buckets[keyHash];
     const node = bucket.find({
       condition: (nodeValue) => nodeValue?.key === key,
     });
@@ -74,7 +76,7 @@ export default class HashTable<TValue = unknown> {
    * @param key
    * @returns value or null.
    */
-  get(key: string): Nullable<TValue> {
+  get(key: string): Nullable<Element> {
     const bucket = this.buckets[this.hash(key)];
     const node = bucket.find({
       condition: (nodeValue) => nodeValue.key === key,
@@ -94,15 +96,15 @@ export default class HashTable<TValue = unknown> {
    * Returns all hash table values.
    * @returns array of values.
    */
-  getValues(): TValue[] {
+  getValues(): Element[] {
     return this.buckets.reduce(
-      (values: TValue[], bucket: LinkedList<Pair<TValue>>) => {
+      (values: Element[], bucket: LinkedList<Pair<Element>>) => {
         const bucketValues = bucket
           .toArray()
           .map((linkedListNode) => linkedListNode.value.value);
-        return values.concat(bucketValues as TValue[]);
+        return values.concat(bucketValues as Element[]);
       },
-      [] as TValue[]
+      [] as Element[]
     );
   }
 }
