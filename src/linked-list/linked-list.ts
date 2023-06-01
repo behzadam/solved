@@ -49,18 +49,13 @@ export default class LinkedList<Element> {
   public append(value: Element): LinkedList<Element> {
     const newNode = new LinkedListNode(value);
 
-    if (!this.head || !this.tail) {
-      // Initializing
+    if (!this.tail) {
       this.head = newNode;
-      this.tail = newNode;
+      this.tail = this.head;
+    } else {
+      this.tail.next = newNode;
+      this.tail = this.tail?.next;
     }
-
-    // Change the current tail next reference to the new node.
-    this.tail.next = newNode;
-    // Now the new node is current tail.
-    this.tail = newNode;
-    // Change the current tail next to null to avoid circle reference.
-    this.tail.next = null;
 
     return this;
   }
