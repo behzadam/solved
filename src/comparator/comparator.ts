@@ -89,9 +89,15 @@ export default class Comparator<Element> {
   /**
    * Returns a comparator function that compares two object properties.
    * @param keyExtractor - Element
-   * @param keyComparator - Custom comparator
-   * @returns function.
-   *
+   * @param keyComparator - optional custom comparator that by default is natural order.
+   * @returns comparator function.
+   * @example
+   * ```ts
+   * // Compares by lenght property
+   * const stringComparator = Comparator.comparing((a: string) => a.length);
+   * const comparator = new Comparator(stringComparator);
+   * comparator.equal("a", "b") // true
+   * ```
    * @beta
    */
   static comparing<Element, Property>(
