@@ -75,4 +75,14 @@ export default class Comparator<Element> {
       return left < right ? -1 : left > right ? 1 : 0;
     };
   }
+
+  /**
+   * Returns an natural but reversed comparator function.
+   * @returns function.
+   */
+  static reverseOrder<Element>(): ComparatorFunction<Element> {
+    return (left: Element, right: Element) => {
+      return left < right ? 1 : left > right ? -1 : 0;
+    };
+  }
 }
