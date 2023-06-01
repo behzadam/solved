@@ -10,9 +10,9 @@ export default class HashTable<TValue = unknown> {
 
   constructor(size = defaultHashTableSize) {
     this._keys = {};
-    this.buckets = new Array(size)
-      .fill({ key: null, value: null } as Pair<TValue>)
-      .map(() => new LinkedList<Pair<TValue>>());
+    this.buckets = Array(size)
+      .fill(null)
+      .map(() => new LinkedList());
   }
 
   private hash(key: string) {
