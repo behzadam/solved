@@ -85,4 +85,21 @@ export default class Comparator<Element> {
       return left < right ? 1 : left > right ? -1 : 0;
     };
   }
+
+  /**
+   * Returns a comparator function that compares two object properties.
+   * @param keyExtractor - Element
+   * @param keyComparator - Custom comparator
+   * @returns function.
+   *
+   * @beta
+   */
+  static comparing<Element, Property>(
+    keyExtractor: (element: Element) => Property,
+    keyComparator: ComparatorFunction<Property> = Comparator.naturalOrder()
+  ): ComparatorFunction<Element> {
+    return (left: Element, right: Element): number => {
+      return keyComparator(keyExtractor(left), keyExtractor(right));
+    };
+  }
 }
