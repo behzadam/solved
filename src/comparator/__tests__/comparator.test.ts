@@ -1,7 +1,23 @@
 import Comparator from "../comparator";
 
+type Product = {
+  rate: number;
+};
+let product1: Product;
+let product2: Product;
+
+beforeAll(() => {
+  product1 = {
+    rate: 1,
+  };
+
+  product2 = {
+    rate: 2,
+  };
+});
+
 describe("Comparator", () => {
-  it("compares with default comparator function", () => {
+  it("compares with default natural order comparator function", () => {
     const comparator = new Comparator();
 
     // equal
@@ -25,14 +41,9 @@ describe("Comparator", () => {
     expect(comparator.greaterThanOrEqual(0, 10)).toBe(false);
   });
 
-  it("compares with custom comparator function", () => {
-    const comparator = new Comparator((a: string, b: string) => {
-      if (a.length === b.length) {
-        return 0;
-      }
-
-      return a.length < b.length ? -1 : 1;
-    });
+  it("compares two strings by lenght and natural ordering", () => {
+    const stringComparator = Comparator.comparing((a: string) => a.length);
+    const comparator = new Comparator(stringComparator);
 
     expect(comparator.equal("a", "b")).toBe(true);
     expect(comparator.equal("a", "")).toBe(false);
@@ -42,30 +53,42 @@ describe("Comparator", () => {
     expect(comparator.greaterThanOrEqual("a", "a")).toBe(true);
   });
 
+  it("compares two strings by lenght and reverse ordering", () => {
+    const stringComparator = Comparator.comparing(
+      (a: string) => a.length,
+      Comparator.reverseOrder()
+    );
+    const comparator = new Comparator(stringComparator);
+
+    expect(comparator.equal("a", "b")).toBe(true);
+    expect(comparator.equal("a", "")).toBe(false);
+    expect(comparator.lessThan("b", "aa")).toBe(false);
+    expect(comparator.greaterThanOrEqual("a", "aa")).toBe(true);
+    expect(comparator.greaterThanOrEqual("aa", "a")).toBe(false);
+    expect(comparator.greaterThanOrEqual("a", "a")).toBe(true);
+  });
+
   it("compares objects with custom comparator function", () => {
-    type Product = {
-      rate: number;
-    };
-    const products: Product[] = [
-      {
-        rate: 1,
-      },
-      {
-        rate: 2,
-      },
-      {
-        rate: 3,
-      },
-    ];
+    const productComparator = Comparator.comparing(
+      (product: Product) => product.rate
+    );
+    const comparator = new Comparator(productComparator);
+    expect(comparator.equal(product1, product2)).toBe(false);
+    expect(comparator.greaterThan(product1, product2)).toBe(false);
+    expect(comparator.lessThanOrEqual(product1, product2)).toBe(true);
+    expect(comparator.greaterThanOrEqual(product1, product2)).toBe(false);
+  });
 
-    const comparator = new Comparator((a: Product, b: Product) => {
-      if (a.rate === b.rate) {
-        return 0;
-      }
-
-      return a.rate < b.rate ? -1 : 1;
-    });
-
-    expect(comparator.greaterThanOrEqual(products[0], products[1])).toBe(false);
+  it("compares objects with custom comparator function", () => {
+    const productComparator = Comparator.comparing(
+      (product: Product) => product.rate,
+      Comparator.reverseOrder()
+    );
+    const comparator = new Comparator(productComparator);
+    expect(comparator.equal(product1, product2)).toBe(false);
+    expect(comparator.greaterThan(product1, product2)).toBe(true);
+    expect(comparator.lessThanOrEqual(product1, product2)).toBe(false);
+    expect(comparator.lessThan(product1, product2)).toBe(false);
+    expect(comparator.greaterThanOrEqual(product1, product2)).toBe(true);
   });
 });
