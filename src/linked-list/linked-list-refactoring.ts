@@ -3,8 +3,8 @@ import { ComparatorFunction } from "@/comparator/comparator-function";
 import { Nullable } from "@/types";
 import LinkedListNode from "./linked-list-node";
 
-// Find a node by value or filter callback
-// One argument is required.
+// Finding a node by value or filter condition.
+// Make sure that at least argument is required.
 type FindOptions<Value> = Partial<
   Required<{ value: Value; filter: (value: Value) => boolean }>
 >;
@@ -49,6 +49,23 @@ export default class LinkedList<Value> {
       this.tail = newNode;
     }
 
+    return this;
+  }
+
+  /**
+   * Adds a node to the beginning of the list.
+   * @param value
+   * @returns this
+   */
+  public prepend(value: Value): LinkedList<Value> {
+    const newNode = new LinkedListNode<Value>(value);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
     return this;
   }
 
@@ -98,6 +115,10 @@ export default class LinkedList<Value> {
     return Array.from(this.traverse());
   }
 
+  /**
+   * Returns the lenght of the list.
+   * @returns - 0 or lenght.
+   */
   public size(): number {
     return this.toArray().length;
   }
