@@ -60,7 +60,7 @@ export default class LinkedList<Value> {
    */
   public find({ value, filter }: FindOptions<Value>): Nullable<LinkedListNode> {
     for (const node of this.traverse()) {
-      if (filter?.(node.value)) return node;
+      if (filter && filter(node.value)) return node;
       if (value && this._compare.equal(node.value, value)) return node;
     }
     return null;
