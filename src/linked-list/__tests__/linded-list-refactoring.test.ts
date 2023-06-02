@@ -46,4 +46,21 @@ describe("LinkedList Refactored", () => {
     const notFound = linkedList.find({ value: "four" });
     expect(notFound).toBeNull();
   });
+
+  it("removes node from the end of the linked list", () => {
+    const linkedList = new LinkedList<number>();
+    linkedList.append(1);
+    linkedList.append(2);
+    linkedList.append(3);
+    linkedList.append(4);
+
+    linkedList.pop();
+    expect(linkedList.toString()).toBe("1,2,3");
+
+    linkedList.pop();
+    expect(linkedList.toString()).toBe("1,2");
+
+    linkedList.pop();
+    expect(linkedList.toString()).toBe("1");
+  });
 });
