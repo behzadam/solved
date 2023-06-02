@@ -76,4 +76,24 @@ describe("LinkedList Refactored", () => {
     linkedList.pop();
     expect(linkedList.toString()).toBe("1");
   });
+
+  it("removes node from the head of the linked list", () => {
+    const linkedList = new LinkedList<number>();
+    linkedList.append(1);
+    linkedList.append(2);
+    linkedList.append(3);
+    linkedList.append(4);
+
+    linkedList.shift();
+    expect(linkedList.toString()).toBe("2,3,4");
+
+    linkedList.shift();
+    expect(linkedList.toString()).toBe("3,4");
+
+    linkedList.shift();
+    expect(linkedList.toString()).toBe("4");
+
+    linkedList.shift();
+    expect(linkedList.toString()).toBe("");
+  });
 });
