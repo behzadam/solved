@@ -53,6 +53,30 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Removes a node from the end of the list.
+   * @returns - removed node.
+   */
+  public pop(): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return undefined;
+
+    let current = this.head;
+    let temp = this.head;
+    while (current.next) {
+      temp = current;
+      current = current.next;
+    }
+    this.tail = temp;
+    this.tail.next = null;
+
+    if (this.size() === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return current;
+  }
+
+  /**
    * Searchs in the list by
    * @param value - to search.
    * @param filter - is a callback function that if is passed then compare function would be ignore.
@@ -72,6 +96,10 @@ export default class LinkedList<Value> {
    */
   public toArray(): LinkedListNode<Value>[] {
     return Array.from(this.traverse());
+  }
+
+  public size(): number {
+    return this.toArray().length;
   }
 
   /**
