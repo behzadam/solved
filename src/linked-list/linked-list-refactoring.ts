@@ -71,7 +71,7 @@ export default class LinkedList<Value> {
 
   /**
    * Removes a node from the end of the list.
-   * @returns - removed node.
+   * @returns - removed node or undefined.
    */
   public pop(): Nullable<LinkedListNode<Value>> {
     if (!this.head) return undefined;
@@ -93,6 +93,10 @@ export default class LinkedList<Value> {
     return current;
   }
 
+  /**
+   * Removes a node from the head of the list.
+   * @returns - removed node or undefined.
+   */
   public shift(): Nullable<LinkedListNode<Value>> {
     if (!this.head) return undefined;
 
