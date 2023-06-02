@@ -11,7 +11,7 @@ export default class LinkedList<Element> {
 
   constructor(comparator?: ComparatorFunction<Element>) {
     this.head = null;
-    this.tail = null;
+    this.tail = this.head;
     this._compare = new Comparator(comparator);
   }
 
@@ -47,14 +47,15 @@ export default class LinkedList<Element> {
    * @returns this
    */
   public append(value: Element): LinkedList<Element> {
-    const newNode = new LinkedListNode(value);
+    const newNode = new LinkedListNode(value, null);
 
-    if (!this.tail) {
+    if (!this.head) {
       this.head = newNode;
-      this.tail = this.head;
+      this.tail = newNode;
     } else {
-      this.tail.next = newNode;
-      this.tail = this.tail?.next;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.tail!.next = newNode;
+      this.tail = newNode;
     }
 
     return this;
