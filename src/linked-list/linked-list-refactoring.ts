@@ -93,6 +93,19 @@ export default class LinkedList<Value> {
     return current;
   }
 
+  public shift(): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return undefined;
+
+    const current = this.head;
+    this.head = this.head.next;
+    current.next = null;
+    if (this.size() === 0) {
+      this.tail = null;
+    }
+
+    return current;
+  }
+
   /**
    * Searchs in the list by
    * @param value - to search.
