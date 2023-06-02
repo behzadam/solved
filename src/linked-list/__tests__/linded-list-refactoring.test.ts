@@ -23,6 +23,19 @@ describe("LinkedList Refactored", () => {
     expect(linkedList.tail?.next).toBeNull();
   });
 
+  it("prepends to the linked list", () => {
+    const linkedList = new LinkedList<number>();
+
+    linkedList.prepend(2);
+    expect(linkedList.head?.toString()).toBe("2");
+    expect(linkedList.tail?.toString()).toBe("2");
+
+    linkedList.append(1);
+    linkedList.prepend(3);
+
+    expect(linkedList.toString()).toBe("3,2,1");
+  });
+
   it("finds node by primitive value", () => {
     const stringComparator = Comparator.comparing((a: string) => a.length);
     const linkedList = new LinkedList<string>(stringComparator);
