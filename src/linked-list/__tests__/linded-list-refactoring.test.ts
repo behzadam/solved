@@ -12,6 +12,13 @@ describe("LinkedList Refactored", () => {
     expect(linkedList.toString()).toBe("");
   });
 
+  it("creates a linked list from an array", () => {
+    const linkedList = new LinkedList();
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    linkedList.fromArray(arr);
+    expect(linkedList.toString()).toBe("1,2,3,4,5,6,7,8,9");
+  });
+
   it("appends to the linked list", () => {
     const linkedList = new LinkedList<number>();
 
