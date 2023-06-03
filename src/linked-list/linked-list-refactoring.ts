@@ -139,7 +139,7 @@ export default class LinkedList<Value> {
    * @param index - index of the node.
    * @returns removed node or undefined.
    */
-  public remove(index: number): Nullable<LinkedListNode<Value>> {
+  public removeAt(index: number): Nullable<LinkedListNode<Value>> {
     const lenght = this.size();
 
     if (index === 0) return this.shift();
@@ -153,6 +153,42 @@ export default class LinkedList<Value> {
     current.next = null;
 
     return current;
+  }
+
+  /**
+   * Removes a node from the list by index.
+   * @param index - index of the node.
+   * @returns removed node or undefined.
+   */
+  public remove(value: Value): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return undefined;
+
+    let deleted: Nullable<LinkedListNode<Value>>;
+    // If the head must be deleted then make next node that is different
+    // from the head to be a new head.
+    while (this.head && this._compare.equal(this.head.value, value)) {
+      deleted = this.head;
+      this.head = this.head.next;
+    }
+
+    let current = this.head;
+    if (current !== null) {
+      // If next node must be deleted then make next node to be a next next one.
+      while (current?.next) {
+        if (this._compare.equal(current.next.value, value)) {
+          deleted = current.next;
+          current.next = current.next.next;
+        } else {
+          current = current.next;
+        }
+      }
+    }
+
+    // Check if tail must be deleted.
+    if (this.tail && this._compare.equal(this.tail.value, value)) {
+      this.tail = current;
+    }
+    return deleted;
   }
 
   /**
