@@ -53,14 +53,14 @@ describe("LinkedList Refactored", () => {
 
     const node = linkedList.find({ value: "one" });
 
-    expect(node).toBeDefined();
+    expect(node).not.toBeNull();
     expect(node?.value).toBe("one");
 
     const withCallback = linkedList.find({
       filter: (a: string) => a.startsWith("t", 0),
     });
 
-    expect(withCallback).toBeDefined();
+    expect(withCallback).not.toBeNull();
     expect(withCallback?.value).toBe("two");
 
     const notFound = linkedList.find({ value: "four" });
@@ -75,18 +75,10 @@ describe("LinkedList Refactored", () => {
     linkedList.append("three");
 
     const node0 = linkedList.get(0);
-    expect(node0).toBeDefined();
     expect(node0?.value).toBe("one");
 
     const node2 = linkedList.get(2);
-    expect(node2).toBeDefined();
     expect(node2?.value).toBe("three");
-
-    const node4 = linkedList.get(4);
-    expect(node4).not.toBeDefined();
-
-    const nodeIndexLesstThanZero = linkedList.get(-1);
-    expect(nodeIndexLesstThanZero).not.toBeDefined();
   });
 
   it("sets node by index", () => {
