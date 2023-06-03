@@ -30,7 +30,7 @@ export default class HashTable<Element = unknown> {
     this._keys[key] = keyHash;
     const bucket = this.buckets[keyHash];
     const node = bucket.find({
-      condition: (nodeValue) => nodeValue.key === key,
+      filter: (nodeValue) => nodeValue.key === key,
     });
 
     if (!node) {
@@ -38,7 +38,7 @@ export default class HashTable<Element = unknown> {
       bucket.append({ key, value });
     } else {
       // Update value of existing node.
-      node.value.value = value;
+      node.value = value;
     }
   }
 
@@ -52,11 +52,11 @@ export default class HashTable<Element = unknown> {
     delete this._keys[key];
     const bucket = this.buckets[keyHash];
     const node = bucket.find({
-      condition: (nodeValue) => nodeValue?.key === key,
-    });
+      filter: (nodeValue) => nodeValue?.key === key,
+    }) as Nullable<LinkedListNode<Pair<Element>>>;
 
     if (node) {
-      return bucket.delete(node.value);
+      return bucket.remove(node.value);
     }
 
     return null;
@@ -79,9 +79,9 @@ export default class HashTable<Element = unknown> {
   get(key: string): Nullable<Element> {
     const bucket = this.buckets[this.hash(key)];
     const node = bucket.find({
-      condition: (nodeValue) => nodeValue.key === key,
-    });
-    return node ? node.value.value : undefined;
+      filter: (nodeValue) => nodeValue.key === key,
+    }) as Nullable<LinkedListNode<Pair<Element>>>;
+    return node ? node.value.value : null;
   }
 
   /**
