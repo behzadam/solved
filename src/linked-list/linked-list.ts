@@ -173,7 +173,7 @@ export default class LinkedList<Value> {
   public remove(value: Value): Nullable<LinkedListNode<Value>> {
     if (!this.head) return null;
 
-    let deleted: Nullable<LinkedListNode<Value>>;
+    let deleted: Nullable<LinkedListNode<Value>> = null;
     // If the head must be deleted then make next node that is different
     // from the head to be a new head.
     while (this.head && this._compare.equal(this.head.value, value)) {
