@@ -111,6 +111,21 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Returns node by index.
+   * @param index - index of node.
+   * @returns undefined or node.
+   */
+  public get(index: number): Nullable<LinkedListNode<Value>> {
+    if (index < 0 || index >= this.size()) return undefined;
+
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+      current = current?.next;
+    }
+    return current;
+  }
+
+  /**
    * Searchs in the list by
    * @param value - to search.
    * @param filter - is a callback function that if is passed then compare function would be ignore.
