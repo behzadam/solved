@@ -135,6 +135,27 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Removes a node from the list by index.
+   * @param index - index of the node.
+   * @returns removed node or undefined.
+   */
+  public remove(index: number): Nullable<LinkedListNode<Value>> {
+    const lenght = this.size();
+
+    if (index === 0) return this.shift();
+    if (index === lenght) return this.pop();
+    if (index < 0 || index >= lenght) return undefined;
+
+    const prev = this.get(index - 1) as LinkedListNode<Value>;
+    const current = prev?.next as LinkedListNode<Value>;
+
+    prev.next = current?.next;
+    current.next = null;
+
+    return current;
+  }
+
+  /**
    * Returns node by index.
    * @param index - index of node.
    * @returns undefined or node.
