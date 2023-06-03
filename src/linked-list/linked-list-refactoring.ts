@@ -94,6 +94,16 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Creates a linked list by an array.
+   * @param values
+   * @returns this
+   */
+  public fromArray(values: Value[]): LinkedList<Value> {
+    values.forEach((value) => this.append(value));
+    return this;
+  }
+
+  /**
    * Removes a node from the end of the list.
    * @returns - removed node or undefined.
    */
