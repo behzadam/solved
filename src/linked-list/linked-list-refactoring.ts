@@ -126,6 +126,19 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Updates a node value by index.
+   * @param index - index of node.
+   * @param value - value to set.
+   * @returns true if node is set with new value and otherwise false.
+   */
+  public set(index: number, value: Value): boolean {
+    const node = this.get(index);
+    if (!node) return false;
+    node.value = value;
+    return true;
+  }
+
+  /**
    * Searchs in the list by
    * @param value - to search.
    * @param filter - is a callback function that if is passed then compare function would be ignore.
