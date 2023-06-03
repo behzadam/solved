@@ -1,15 +1,12 @@
 import { Nullable } from "@/types";
 
-export default class LinkedListNode<TValue> {
-  public value: TValue;
-  public next: Nullable<LinkedListNode<TValue>>;
+export default class LinkedListNode<Value = unknown> {
+  constructor(
+    public value: Value,
+    public next: Nullable<LinkedListNode<Value>> = null
+  ) {}
 
-  constructor(value: TValue, next: Nullable<LinkedListNode<TValue>> = null) {
-    this.value = value;
-    this.next = next;
-  }
-
-  toString(callback?: (value: TValue) => string): string {
+  toString(callback?: (value: Value) => string): string {
     return callback ? callback(this.value) : `${this.value}`;
   }
 }
