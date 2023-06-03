@@ -155,4 +155,22 @@ describe("LinkedList Refactored", () => {
     linkedList.shift();
     expect(linkedList.toString()).toBe("");
   });
+
+  it("removes node by index of the linked list", () => {
+    const linkedList = new LinkedList<number>();
+    linkedList.append(1);
+    linkedList.append(2);
+    linkedList.append(3);
+    linkedList.append(4);
+
+    linkedList.remove(1);
+    expect(linkedList.toString()).toBe("1,3,4");
+
+    linkedList.remove(2);
+    expect(linkedList.toString()).toBe("1,3");
+
+    // Out of the bounded
+    expect(linkedList.remove(linkedList.size() + 1)).toBeUndefined();
+    expect(linkedList.remove(-1)).toBeUndefined();
+  });
 });
