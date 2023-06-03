@@ -244,6 +244,30 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Reverses linked list
+   */
+  public reverse(): void {
+    let current = this.head;
+    let next: Nullable<LinkedListNode<Value>>;
+    let prev: Nullable<LinkedListNode<Value>>;
+
+    while (current) {
+      // Store next node.
+      next = current.next;
+      // Change next node of the current node so it would link to previous node.
+      current.next = prev;
+
+      // Move prev and current nodes one step forward.
+      prev = current;
+      current = next;
+    }
+
+    // Reset head and tail.
+    this.tail = this.head;
+    this.head = prev;
+  }
+
+  /**
    * Generates an array of nodes.
    * @returns array of nodes.
    */
