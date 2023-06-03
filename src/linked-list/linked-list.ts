@@ -1,24 +1,31 @@
 import Comparator from "@/comparator/comparator";
 import { ComparatorFunction } from "@/comparator/comparator-function";
 import { Nullable } from "@/types";
-import { isDefined } from "@/utils/is-defined";
 import LinkedListNode from "./linked-list-node";
 
-export default class LinkedList<Element> {
-  public head: Nullable<LinkedListNode<Element>>;
-  public tail: Nullable<LinkedListNode<Element>>;
-  private _compare: Comparator<Element>;
+// Finding a node by value or filter condition.
+// Make sure that at least argument is required.
+type FindOptions<Value> = Partial<
+  Required<{ value: Value; filter: (value: Value) => boolean }>
+>;
 
-  constructor(comparator?: ComparatorFunction<Element>) {
+export default class LinkedList<Value> {
+  public head: Nullable<LinkedListNode<Value>>;
+  public tail: Nullable<LinkedListNode<Value>>;
+
+  private _compare: Comparator<Value>;
+
+  constructor(comparator?: ComparatorFunction<Value>) {
     this.head = null;
     this.tail = this.head;
     this._compare = new Comparator(comparator);
   }
 
   /**
-   * Function generator that returns nodes.
+   * Traverse the linked list and yield items.
+   * @returns Generator<LinkedListNode<Value>, void, unknown>
    */
-  private *traverse(): Generator<LinkedListNode<Element>, void, unknown> {
+  private *traverse() {
     let currentNode = this.head;
     while (currentNode) {
       yield currentNode;
@@ -27,34 +34,18 @@ export default class LinkedList<Element> {
   }
 
   /**
-   * Adds a node to the beginning of the list.
-   * @param value
-   * @returns this
-   */
-  public prepend(value: Element): LinkedList<Element> {
-    const newNode = new LinkedListNode<Element>(value, this.head);
-    this.head = newNode;
-
-    if (!this.tail) {
-      this.tail = newNode;
-    }
-    return this;
-  }
-
-  /**
    * Adds a node to the end of the list.
    * @param value
    * @returns this
    */
-  public append(value: Element): LinkedList<Element> {
-    const newNode = new LinkedListNode(value, null);
+  public append(value: Value): LinkedList<Value> {
+    const newNode = new LinkedListNode(value);
 
-    if (!this.head) {
-      this.head = newNode;
+    if (this.tail) {
+      this.tail.next = newNode;
       this.tail = newNode;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.tail!.next = newNode;
+      this.head = newNode;
       this.tail = newNode;
     }
 
@@ -62,139 +53,44 @@ export default class LinkedList<Element> {
   }
 
   /**
-   * Delete a node by value.
+   * Adds a node to the beginning of the list.
    * @param value
-   * @returns deleted nod or null.
+   * @returns this
    */
-  public delete(value: Element): Nullable<LinkedListNode<Element>> {
-    if (!this.head) return null;
-
-    let deletedNode = null;
-    while (this.head && this._compare.equal(this.head.value, value)) {
-      deletedNode = this.head;
-      this.head = this.head.next;
-    }
-
-    let currentNode = this.head;
-    if (currentNode) {
-      // If next node must be deleted then make next node to be a next next one.
-      while (currentNode.next) {
-        if (this._compare.equal(currentNode.next.value, value)) {
-          deletedNode = currentNode.next;
-          currentNode.next = currentNode.next.next;
-        } else {
-          currentNode = currentNode.next;
-        }
-      }
-    }
-
-    if (this.tail && this._compare.equal(this.tail.value, value)) {
-      this.tail = currentNode;
-    }
-
-    return deletedNode;
-  }
-
-  /**
-   * Deletes the linked list tail.
-   * @returns deleted node or null;
-   */
-  public deleteTail(): Nullable<LinkedListNode<Element>> {
-    if (!this.tail) return null;
-
-    const deletedTail = this.tail;
-    if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
-      return deletedTail;
-    }
-
-    // If there are many nodes in linked list...
-
-    // Rewind to the last node and delete "next" link for the node before the last one.
-    let currentNode = this.head;
-    while (currentNode?.next) {
-      if (!currentNode.next.next) {
-        currentNode.next = null;
-      } else {
-        currentNode = currentNode.next;
-      }
-    }
-
-    this.tail = currentNode;
-    return deletedTail;
-  }
-
-  /**
-   * Deletes the linked list head.
-   * @returns deleted node or null;
-   */
-  public deleteHead(): Nullable<LinkedListNode<Element>> {
-    if (!this.head) return null;
-
-    const deletedHead = this.head;
-    if (this.head.next) {
-      this.head = this.head.next;
+  public prepend(value: Value): LinkedList<Value> {
+    const newNode = new LinkedListNode<Value>(value);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
     } else {
-      this.head = null;
-      this.tail = null;
+      newNode.next = this.head;
+      this.head = newNode;
     }
-    return deletedHead;
+    return this;
   }
 
   /**
-   * Finds a node value and comparator or custom compare function.
-   * @param value value to find.
-   * @param condition optional function that returns true or false.
-   * @returns node or null.
+   * Inserts new node by index into the list.
+   * @param index - index of new node.
+   * @param value - value of new node.
+   * @returns
    */
-  public find({
-    value,
-    condition,
-  }: Partial<{
-    value: Element;
-    condition: (value: Element) => boolean;
-  }>): Nullable<LinkedListNode<Element>> {
-    if (!this.head) return null;
+  public insert(index: number, value: Value): boolean {
+    const length = this.size();
 
-    let currentNode: Nullable<LinkedListNode<Element>> = this.head;
-    while (currentNode) {
-      // If condition is specified then try to find node by condition.
-      if (isDefined(condition) && condition(currentNode.value)) {
-        return currentNode;
-      }
-      // If value is specified then try to compare by value.
-      if (isDefined(value) && this._compare.equal(currentNode.value, value)) {
-        return currentNode;
-      }
-      currentNode = currentNode.next;
+    if (index < 0 || index > length) return false;
+    else if (index === 0) this.prepend(value);
+    else if (index === length) this.append(value);
+    else {
+      const newNode = new LinkedListNode<Value>(value);
+      // Find previous node of current index.
+      const prev = this.get(index - 1) as LinkedListNode<Value>;
+      // Push new node between current and previous node.
+      newNode.next = prev.next;
+      prev.next = newNode;
     }
 
-    return null;
-  }
-
-  /**
-   * Reverses linked list
-   */
-  public reverse(): void {
-    let currentNode = this.head;
-    let nextNode: Nullable<LinkedListNode<Element>>;
-    let prevNode: Nullable<LinkedListNode<Element>>;
-
-    while (currentNode) {
-      // Store next node.
-      nextNode = currentNode.next;
-      // Change next node of the current node so it would link to previous node.
-      currentNode.next = prevNode;
-
-      // Move prevNode and currentNode nodes one step forward.
-      prevNode = currentNode;
-      currentNode = nextNode;
-    }
-
-    // Reset head and tail.
-    this.tail = this.head;
-    this.head = prevNode;
+    return true;
   }
 
   /**
@@ -202,17 +98,189 @@ export default class LinkedList<Element> {
    * @param values
    * @returns this
    */
-  public fromArray(values: Element[]): LinkedList<Element> {
+  public fromArray(values: Value[]): LinkedList<Value> {
     values.forEach((value) => this.append(value));
     return this;
+  }
+
+  /**
+   * Removes a node from the end of the list.
+   * @returns - removed node or null.
+   */
+  public pop(): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return null;
+
+    let current = this.head;
+    let temp = this.head;
+    while (current.next) {
+      temp = current;
+      current = current.next;
+    }
+    this.tail = temp;
+    this.tail.next = null;
+
+    if (this.size() === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return current;
+  }
+
+  /**
+   * Removes a node from the head of the list.
+   * @returns - removed node or null.
+   */
+  public shift(): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return null;
+
+    const current = this.head;
+    this.head = this.head.next;
+    current.next = null;
+    if (this.size() === 0) {
+      this.tail = null;
+    }
+
+    return current;
+  }
+
+  /**
+   * Removes a node from the list by index.
+   * @param index - index of the node.
+   * @returns removed node or null.
+   */
+  public removeAt(index: number): Nullable<LinkedListNode<Value>> {
+    const lenght = this.size();
+
+    if (index === 0) return this.shift();
+    if (index === lenght) return this.pop();
+    if (index < 0 || index >= lenght) return null;
+
+    const prev = this.get(index - 1) as LinkedListNode<Value>;
+    const current = prev?.next as LinkedListNode<Value>;
+
+    prev.next = current?.next;
+    current.next = null;
+
+    return current;
+  }
+
+  /**
+   * Removes a node from the list by index.
+   * @param index - index of the node.
+   * @returns removed node or null.
+   */
+  public remove(value: Value): Nullable<LinkedListNode<Value>> {
+    if (!this.head) return null;
+
+    let deleted: Nullable<LinkedListNode<Value>> = null;
+    // If the head must be deleted then make next node that is different
+    // from the head to be a new head.
+    while (this.head && this._compare.equal(this.head.value, value)) {
+      deleted = this.head;
+      this.head = this.head.next;
+    }
+
+    let current = this.head;
+    if (current !== null) {
+      // If next node must be deleted then make next node to be a next next one.
+      while (current?.next) {
+        if (this._compare.equal(current.next.value, value)) {
+          deleted = current.next;
+          current.next = current.next.next;
+        } else {
+          current = current.next;
+        }
+      }
+    }
+
+    // Check if tail must be deleted.
+    if (this.tail && this._compare.equal(this.tail.value, value)) {
+      this.tail = current;
+    }
+    return deleted;
+  }
+
+  /**
+   * Returns node by index.
+   * @param index - index of node.
+   * @returns null or node.
+   */
+  public get(index: number): Nullable<LinkedListNode<Value>> {
+    if (index < 0 || index >= this.size()) return null;
+
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+      current = current?.next;
+    }
+    return current;
+  }
+
+  /**
+   * Updates a node value by index.
+   * @param index - index of node.
+   * @param value - value to set.
+   * @returns true if node is set with new value and otherwise false.
+   */
+  public set(index: number, value: Value): boolean {
+    const node = this.get(index);
+    if (!node) return false;
+    node.value = value;
+    return true;
+  }
+
+  /**
+   * Searchs in the list by
+   * @param value - to search.
+   * @param filter - is a callback function that if is passed then compare function would be ignore.
+   * @returns the first node that matched or null.
+   */
+  public find({ value, filter }: FindOptions<Value>): Nullable<LinkedListNode> {
+    for (const node of this.traverse()) {
+      if (filter && filter(node.value)) return node;
+      if (value && this._compare.equal(node.value, value)) return node;
+    }
+    return null;
+  }
+
+  /**
+   * Reverses linked list
+   */
+  public reverse(): void {
+    let current = this.head;
+    let next: Nullable<LinkedListNode<Value>>;
+    let prev: Nullable<LinkedListNode<Value>>;
+
+    while (current) {
+      // Store next node.
+      next = current.next;
+      // Change next node of the current node so it would link to previous node.
+      current.next = prev;
+
+      // Move prev and current nodes one step forward.
+      prev = current;
+      current = next;
+    }
+
+    // Reset head and tail.
+    this.tail = this.head;
+    this.head = prev;
   }
 
   /**
    * Generates an array of nodes.
    * @returns array of nodes.
    */
-  public toArray(): LinkedListNode<Element>[] {
+  public toArray(): LinkedListNode<Value>[] {
     return Array.from(this.traverse());
+  }
+
+  /**
+   * Returns the lenght of the list.
+   * @returns - 0 or lenght.
+   */
+  public size(): number {
+    return this.toArray().length;
   }
 
   /**
@@ -220,7 +288,7 @@ export default class LinkedList<Element> {
    * @param callback - Optional callback function
    * @returns string
    */
-  public toString(callback?: (value: Element) => string): string {
+  public toString(callback?: (value: Value) => string): string {
     return this.toArray()
       .map((node) => node.toString(callback))
       .toString();
