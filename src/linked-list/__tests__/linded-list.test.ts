@@ -1,5 +1,5 @@
 import { Comparator } from "@/comparator";
-import LinkedList from "../linked-list-refactoring";
+import LinkedList from "../linked-list";
 
 describe("LinkedList Refactored", () => {
   it("creates an empty linked list", () => {
