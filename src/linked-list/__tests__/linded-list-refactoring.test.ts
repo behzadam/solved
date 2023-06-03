@@ -96,6 +96,29 @@ describe("LinkedList Refactored", () => {
     expect(node?.value).toBe("Two");
   });
 
+  it("inserts node by index", () => {
+    const linkedList = new LinkedList<number>();
+
+    linkedList.append(1);
+    linkedList.append(2);
+    linkedList.append(3);
+
+    expect(linkedList.toString()).toBe("1,2,3");
+
+    linkedList.insert(1, 4);
+
+    expect(linkedList.toString()).toBe("1,4,2,3");
+
+    // index = -1
+    expect(linkedList.insert(-1, 5)).toBe(false);
+    // index > list.lenght
+    expect(linkedList.insert(6, 5)).toBe(false);
+    // index == list.lenght
+    // console.log(linkedList.size());
+    expect(linkedList.insert(linkedList.size(), 5)).toBe(true);
+    expect(linkedList.toString()).toBe("1,4,2,3,5");
+  });
+
   it("removes node from the end of the linked list", () => {
     const linkedList = new LinkedList<number>();
     linkedList.append(1);
