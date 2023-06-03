@@ -163,14 +163,30 @@ describe("LinkedList Refactored", () => {
     linkedList.append(3);
     linkedList.append(4);
 
-    linkedList.remove(1);
+    linkedList.removeAt(1);
     expect(linkedList.toString()).toBe("1,3,4");
 
-    linkedList.remove(2);
+    linkedList.removeAt(2);
     expect(linkedList.toString()).toBe("1,3");
 
     // Out of the bounded
-    expect(linkedList.remove(linkedList.size() + 1)).toBeUndefined();
-    expect(linkedList.remove(-1)).toBeUndefined();
+    expect(linkedList.removeAt(linkedList.size() + 1)).toBeUndefined();
+    expect(linkedList.removeAt(-1)).toBeUndefined();
+  });
+
+  it("removes node by value of the linked list", () => {
+    const linkedList = new LinkedList<number>();
+
+    linkedList.append(1);
+    expect(linkedList.remove(2)).toBeUndefined();
+
+    linkedList.append(2);
+    linkedList.append(3);
+    linkedList.append(4);
+
+    linkedList.remove(1);
+    expect(linkedList.toString()).toBe("2,3,4");
+    expect(linkedList.head?.toString()).toBe("2");
+    expect(linkedList.tail?.toString()).toBe("4");
   });
 });
