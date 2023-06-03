@@ -82,6 +82,20 @@ describe("LinkedList Refactored", () => {
     expect(nodeIndexLesstThanZero).not.toBeDefined();
   });
 
+  it("sets node by index", () => {
+    const linkedList = new LinkedList<string>();
+
+    linkedList.append("one");
+
+    const notFound = linkedList.set(1, "Two");
+    expect(notFound).toBe(false);
+
+    const result = linkedList.set(0, "Two");
+    const node = linkedList.get(0);
+    expect(result).toBe(true);
+    expect(node?.value).toBe("Two");
+  });
+
   it("removes node from the end of the linked list", () => {
     const linkedList = new LinkedList<number>();
     linkedList.append(1);
