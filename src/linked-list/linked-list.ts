@@ -105,10 +105,10 @@ export default class LinkedList<Value> {
 
   /**
    * Removes a node from the end of the list.
-   * @returns - removed node or undefined.
+   * @returns - removed node or null.
    */
   public pop(): Nullable<LinkedListNode<Value>> {
-    if (!this.head) return undefined;
+    if (!this.head) return null;
 
     let current = this.head;
     let temp = this.head;
@@ -129,10 +129,10 @@ export default class LinkedList<Value> {
 
   /**
    * Removes a node from the head of the list.
-   * @returns - removed node or undefined.
+   * @returns - removed node or null.
    */
   public shift(): Nullable<LinkedListNode<Value>> {
-    if (!this.head) return undefined;
+    if (!this.head) return null;
 
     const current = this.head;
     this.head = this.head.next;
@@ -147,14 +147,14 @@ export default class LinkedList<Value> {
   /**
    * Removes a node from the list by index.
    * @param index - index of the node.
-   * @returns removed node or undefined.
+   * @returns removed node or null.
    */
   public removeAt(index: number): Nullable<LinkedListNode<Value>> {
     const lenght = this.size();
 
     if (index === 0) return this.shift();
     if (index === lenght) return this.pop();
-    if (index < 0 || index >= lenght) return undefined;
+    if (index < 0 || index >= lenght) return null;
 
     const prev = this.get(index - 1) as LinkedListNode<Value>;
     const current = prev?.next as LinkedListNode<Value>;
@@ -168,10 +168,10 @@ export default class LinkedList<Value> {
   /**
    * Removes a node from the list by index.
    * @param index - index of the node.
-   * @returns removed node or undefined.
+   * @returns removed node or null.
    */
   public remove(value: Value): Nullable<LinkedListNode<Value>> {
-    if (!this.head) return undefined;
+    if (!this.head) return null;
 
     let deleted: Nullable<LinkedListNode<Value>>;
     // If the head must be deleted then make next node that is different
@@ -204,10 +204,10 @@ export default class LinkedList<Value> {
   /**
    * Returns node by index.
    * @param index - index of node.
-   * @returns undefined or node.
+   * @returns null or node.
    */
   public get(index: number): Nullable<LinkedListNode<Value>> {
-    if (index < 0 || index >= this.size()) return undefined;
+    if (index < 0 || index >= this.size()) return null;
 
     let current = this.head;
     for (let i = 0; i < index; i++) {
