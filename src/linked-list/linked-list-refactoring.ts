@@ -70,6 +70,30 @@ export default class LinkedList<Value> {
   }
 
   /**
+   * Inserts new node by index into the list.
+   * @param index - index of new node.
+   * @param value - value of new node.
+   * @returns
+   */
+  public insert(index: number, value: Value): boolean {
+    const length = this.size();
+
+    if (index < 0 || index > length) return false;
+    else if (index === 0) this.prepend(value);
+    else if (index === length) this.append(value);
+    else {
+      const newNode = new LinkedListNode<Value>(value);
+      // Find previous node of current index.
+      const prev = this.get(index - 1) as LinkedListNode<Value>;
+      // Push new node between current and previous node.
+      newNode.next = prev.next;
+      prev.next = newNode;
+    }
+
+    return true;
+  }
+
+  /**
    * Removes a node from the end of the list.
    * @returns - removed node or undefined.
    */
