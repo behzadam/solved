@@ -38,28 +38,28 @@ describe("Trie", () => {
     expect(trie.isExist("cat")).toBe(true);
 
     // Try to delete not-existing word first.
-    trie.delete("carpool");
+    trie.remove("carpool");
     expect(trie.isExist("carpet")).toBe(true);
     expect(trie.isExist("car")).toBe(true);
     expect(trie.isExist("cart")).toBe(true);
     expect(trie.isExist("cat")).toBe(true);
 
-    trie.delete("carpet");
+    trie.remove("carpet");
     expect(trie.isExist("carpet")).toEqual(false);
     expect(trie.isExist("car")).toEqual(true);
     expect(trie.isExist("cart")).toBe(true);
     expect(trie.isExist("cat")).toBe(true);
 
-    trie.delete("cat");
+    trie.remove("cat");
     expect(trie.isExist("car")).toEqual(true);
     expect(trie.isExist("cart")).toBe(true);
     expect(trie.isExist("cat")).toBe(false);
 
-    trie.delete("car");
+    trie.remove("car");
     expect(trie.isExist("car")).toEqual(false);
     expect(trie.isExist("cart")).toBe(true);
 
-    trie.delete("cart");
+    trie.remove("cart");
     expect(trie.isExist("car")).toEqual(false);
     expect(trie.isExist("cart")).toBe(false);
   });
