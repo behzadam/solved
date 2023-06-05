@@ -235,7 +235,10 @@ export default class LinkedList<Value> {
    * @param filter - is a callback function that if is passed then compare function would be ignore.
    * @returns the first node that matched or null.
    */
-  public find({ value, filter }: FindOptions<Value>): Nullable<LinkedListNode> {
+  public find({
+    value,
+    filter,
+  }: FindOptions<Value>): Nullable<LinkedListNode<Value>> {
     for (const node of this.traverse()) {
       if (filter && filter(node.value)) return node;
       if (value && this._compare.equal(node.value, value)) return node;
