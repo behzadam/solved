@@ -9,12 +9,12 @@ import { Nullable } from "@/types";
 export default class TrieNode {
   public character: string;
   public isWord: boolean;
-  private _children: HashTable<TrieNode>;
+  private children: HashTable<TrieNode>;
 
   constructor(character: string, isWord = false) {
     this.character = character;
     this.isWord = isWord;
-    this._children = new HashTable();
+    this.children = new HashTable();
   }
 
   /**
@@ -23,7 +23,7 @@ export default class TrieNode {
    * @returns child or node.
    */
   public getChild(character: string): Nullable<TrieNode> {
-    return this._children.get(character);
+    return this.children.get(character);
   }
 
   /**
@@ -33,11 +33,11 @@ export default class TrieNode {
    * @returns child node.
    */
   public addChild(character: string, isWord = false): TrieNode {
-    if (!this._children.has(character)) {
-      this._children.set(character, new TrieNode(character, isWord));
+    if (!this.children.has(character)) {
+      this.children.set(character, new TrieNode(character, isWord));
     }
 
-    const childNode = this._children.get(character) as TrieNode;
+    const childNode = this.children.get(character) as TrieNode;
     // In cases similar to adding "car" after "carpet" we need to mark "r" character as complete.
     childNode.isWord = childNode?.isWord || isWord;
 
@@ -56,7 +56,7 @@ export default class TrieNode {
     // - childNode doesn't have children,
     // - childNode.isWord === false.
     if (childNode && !childNode.isWord && !childNode.hasChildren()) {
-      this._children.delete(character);
+      this.children.remove(character);
     }
     return this;
   }
@@ -67,7 +67,7 @@ export default class TrieNode {
    * @returns true if current node has child and false otherwise.
    */
   public hasChild(character: string): boolean {
-    return this._children.has(character);
+    return this.children.has(character);
   }
 
   /**
@@ -75,7 +75,7 @@ export default class TrieNode {
    * @returns true if current node has children and false otherwise.
    */
   public hasChildren(): boolean {
-    return this._children.getKeys().length !== 0;
+    return this.children.getKeys().length !== 0;
   }
 
   /**
@@ -83,7 +83,7 @@ export default class TrieNode {
    * @returns array of keys(string) if current node has children or an empty array.
    */
   public suggestChildren(): string[] {
-    return [...this._children.getKeys()];
+    return [...this.children.getKeys()];
   }
 
   /**

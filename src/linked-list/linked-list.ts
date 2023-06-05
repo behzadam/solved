@@ -13,12 +13,12 @@ export default class LinkedList<Value> {
   public head: Nullable<LinkedListNode<Value>>;
   public tail: Nullable<LinkedListNode<Value>>;
 
-  private _compare: Comparator<Value>;
+  private compare: Comparator<Value>;
 
   constructor(comparator?: ComparatorFunction<Value>) {
     this.head = null;
     this.tail = this.head;
-    this._compare = new Comparator(comparator);
+    this.compare = new Comparator(comparator);
   }
 
   /**
@@ -176,7 +176,7 @@ export default class LinkedList<Value> {
     let deleted: Nullable<LinkedListNode<Value>> = null;
     // If the head must be deleted then make next node that is different
     // from the head to be a new head.
-    while (this.head && this._compare.equal(this.head.value, value)) {
+    while (this.head && this.compare.equal(this.head.value, value)) {
       deleted = this.head;
       this.head = this.head.next;
     }
@@ -185,7 +185,7 @@ export default class LinkedList<Value> {
     if (current !== null) {
       // If next node must be deleted then make next node to be a next next one.
       while (current?.next) {
-        if (this._compare.equal(current.next.value, value)) {
+        if (this.compare.equal(current.next.value, value)) {
           deleted = current.next;
           current.next = current.next.next;
         } else {
@@ -195,7 +195,7 @@ export default class LinkedList<Value> {
     }
 
     // Check if tail must be deleted.
-    if (this.tail && this._compare.equal(this.tail.value, value)) {
+    if (this.tail && this.compare.equal(this.tail.value, value)) {
       this.tail = current;
     }
     return deleted;
@@ -235,10 +235,13 @@ export default class LinkedList<Value> {
    * @param filter - is a callback function that if is passed then compare function would be ignore.
    * @returns the first node that matched or null.
    */
-  public find({ value, filter }: FindOptions<Value>): Nullable<LinkedListNode> {
+  public find({
+    value,
+    filter,
+  }: FindOptions<Value>): Nullable<LinkedListNode<Value>> {
     for (const node of this.traverse()) {
       if (filter && filter(node.value)) return node;
-      if (value && this._compare.equal(node.value, value)) return node;
+      if (value && this.compare.equal(node.value, value)) return node;
     }
     return null;
   }
