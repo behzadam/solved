@@ -53,7 +53,7 @@ export default class Trie {
    * @param word
    * @returns an instance of current Trie.
    */
-  delete(word: string) {
+  remove(word: string) {
     const depthFirstDelete = (currentNode: TrieNode, charIndex = 0) => {
       if (charIndex >= word.length) {
         // Return if we're trying to delete the character that is out of word's scope.
