@@ -56,7 +56,7 @@ export default class TrieNode {
     // - childNode doesn't have children,
     // - childNode.isWord === false.
     if (childNode && !childNode.isWord && !childNode.hasChildren()) {
-      this.children.delete(character);
+      this.children.remove(character);
     }
     return this;
   }
