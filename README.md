@@ -11,10 +11,12 @@
 
 In this repository I'm refactoring [JavaScript Algorithms](https://github.com/trekhleb/javascript-algorithms) from JavaScript to TypeScript.
 
-- [Comparator](https://github.com/behzadam/solved/tree/master/src/comparator) ( some functionalities inspired from Java Comparator ).
-- [HashTable](https://github.com/behzadam/solved/tree/master/src/hash-table)
-- [Heap](https://github.com/behzadam/solved/tree/master/src/heap)
-- [LinkedList](https://github.com/behzadam/solved/tree/master/src/linked-list)
-- [PriorityQueue](https://github.com/behzadam/solved/tree/master/src/priority-queue)
-- [Trie](https://github.com/behzadam/solved/tree/master/src/trie)
+- [Comparator](src/comparator/comparator.ts) ( some functionalities inspired from Java Comparator ).
+- [HashTable](src/hash-table/hash-table.ts)
+- [MinHeap](src/heap/min-heap.ts)
+- [MaxHeap](src/heap/max-heap.ts)
+- [LinkedList](src/linked-list/linked-list.ts)
+- [Queue](src/queue/queue.ts)
+- [PriorityQueue](src/priority-queue/priority-queue.ts)
+- [Trie](src/trie/trie.ts)
 - In progress...
