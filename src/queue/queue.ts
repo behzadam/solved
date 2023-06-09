@@ -2,7 +2,7 @@ import LinkedList from "@/linked-list/linked-list";
 import { Nullable } from "@/types";
 
 export default class Queue<Element> {
-  public list: LinkedList<Element>;
+  private list: LinkedList<Element>;
   constructor() {
     this.list = new LinkedList<Element>();
   }
