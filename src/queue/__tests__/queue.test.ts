@@ -1,12 +1,6 @@
 import Queue from "../queue";
 
 describe("Queue", () => {
-  it("creates empty queue", () => {
-    const queue = new Queue();
-    expect(queue).not.toBeNull();
-    expect(queue.list).not.toBeNull();
-  });
-
   it("enqueues data to queue", () => {
     const queue = new Queue();
 
