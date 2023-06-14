@@ -20,4 +20,5 @@ In this repository I'm refactoring [JavaScript Algorithms](https://github.com/tr
 - [PriorityQueue](src/priority-queue/priority-queue.ts)
 - [Trie](src/trie/trie.ts)
 - [BinarySearch](src/binary-search/binary-search.ts) -> watch video: [YouTube](https://www.youtube.com/watch?v=tE9yPJuE5aY&t=13s)
+- [LinearSearch](src/linear-search/linear-search.ts)
 - In progress...
