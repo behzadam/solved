@@ -2,7 +2,7 @@ import { Comparator, ComparatorFunction } from "@/comparator";
 
 /**
  * Linear search.
- * @param array - Given an array.
+ * @param array - The given array.
  * @param seekElement - The element to search.
  * @param comparatorFunction - Optional comparator function.
  * @returns array of numbers or an empty array.
