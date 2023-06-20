@@ -17,6 +17,7 @@ In this repository I'm refactoring [JavaScript Algorithms](https://github.com/tr
 - [MaxHeap](src/heap/max-heap.ts)
 - [LinkedList](src/linked-list/linked-list.ts)
 - [Queue](src/queue/queue.ts)
+- [Stack](src/stack/stack.ts)
 - [PriorityQueue](src/priority-queue/priority-queue.ts)
 - [Trie](src/trie/trie.ts)
 - [BinarySearch](src/binary-search/binary-search.ts) -> watch video: [YouTube](https://www.youtube.com/watch?v=tE9yPJuE5aY&t=13s)
