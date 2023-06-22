@@ -41,7 +41,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @returns - this.
    */
   changePriority(item: Item, priority: number): PriorityQueue<Item> {
-    this.remove(item, new Comparator(this.compareValue));
+    this.remove(item, new Comparator(Comparator.naturalOrder()));
     this.add(item, priority);
     return this;
   }
@@ -52,7 +52,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @returns array of indices.
    */
   findByValue(item: Item): number[] {
-    return this.find(item, new Comparator(this.compareValue));
+    return this.find(item, new Comparator(Comparator.naturalOrder()));
   }
 
   /**
@@ -75,18 +75,5 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
       return 0;
     }
     return this._priorities.get(a)! < this._priorities.get(b)! ? -1 : 1;
-  }
-
-  /**
-   * Compares values of two items.
-   * @param {*} a
-   * @param {*} b
-   * @return {number}
-   */
-  compareValue(a: any, b: any): number {
-    if (a === b) {
-      return 0;
-    }
-    return a < b ? -1 : 1;
   }
 }
