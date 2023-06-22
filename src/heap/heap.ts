@@ -1,61 +1,117 @@
 import { Comparator, ComparatorFunction } from "@/comparator";
 import { Nullable } from "@/types";
 
-export default abstract class Heap<TItem> {
-  protected heap: TItem[];
-  protected compare: Comparator<TItem>;
+/**
+ * * This class is just to inheritance.
+ */
+export default abstract class Heap<Item> {
+  protected heap: Item[];
+  protected compare: Comparator<Item>;
 
-  constructor(comparator?: ComparatorFunction<TItem>) {
+  constructor(comparator?: ComparatorFunction<Item>) {
     this.heap = [];
     this.compare = new Comparator(comparator);
   }
 
+  /**
+   * Returns left child index of the parent.
+   * @param parentIndex
+   * @returns
+   */
   protected getLeftChildIndex(parentIndex: number): number {
     return 2 * parentIndex + 1;
   }
 
+  /**
+   * Returns right child index of the parent.
+   * @param parentIndex
+   * @returns
+   */
   protected getRightChildIndex(parentIndex: number): number {
     return 2 * parentIndex + 2;
   }
 
+  /**
+   * Returns parent index.
+   * @param childIndex - index we are going to find the parent index.
+   * @returns - parent index.
+   */
   protected getParentIndex(childIndex: number): number {
     return Math.floor((childIndex - 1) / 2);
   }
 
+  /**
+   * Checks if the given index has parent or not.
+   * @param childIndex the given index.
+   * @returns true if has parent or false otherwise.
+   */
   protected hasParent(childIndex: number): boolean {
     return this.getParentIndex(childIndex) >= 0;
   }
 
+  /**
+   * Checks if parent index has left child or not.
+   * @param parentIndex - the parent index.
+   * @returns true if parent has left child, false otherwise.
+   */
   protected hasLeftChild(parentIndex: number): boolean {
     return this.getLeftChildIndex(parentIndex) < this.heap.length;
   }
 
+  /**
+   * Checks if parent index has right child or not.
+   * @param parentIndex - the parent index.
+   * @returns true if parent has right child, false otherwise.
+   */
   protected hasRightChild(parentIndex: number): boolean {
     return this.getRightChildIndex(parentIndex) < this.heap.length;
   }
 
-  protected leftChild(parentIndex: number): TItem {
+  /**
+   *  Returns the left child of the given index.
+   * @param parentIndex - the given parent index.
+   * @returns - Item.
+   */
+  protected leftChild(parentIndex: number): Item {
     return this.heap[this.getLeftChildIndex(parentIndex)];
   }
 
-  protected rightChild(parentIndex: number): TItem {
+  /**
+   *  Returns the right child of the given index.
+   * @param parentIndex - the given parent index.
+   * @returns - Item.
+   */
+  protected rightChild(parentIndex: number): Item {
     return this.heap[this.getRightChildIndex(parentIndex)];
   }
 
-  protected parent(childIndex: number): TItem {
+  /**
+   * Returns the parent of the given index.
+   * @param childIndex - the given index.
+   * @returns Item.
+   */
+  protected parent(childIndex: number): Item {
     return this.heap[this.getParentIndex(childIndex)];
   }
 
+  /**
+   * Swaps items by index.
+   * @param indexOne - the index to swap.
+   * @param indexTwo - the index to swap.
+   */
   protected swap(indexOne: number, indexTwo: number): void {
     const tmp = this.heap[indexTwo];
     this.heap[indexTwo] = this.heap[indexOne];
     this.heap[indexOne] = tmp;
   }
 
-  protected heapifyUp(startIndex?: number) {
-    // Take the last element (last in array or the bottom left in a tree)
-    // in the heap container and lift it up until it is in the correct
-    // order with respect to its parent element.
+  /**
+   * Takes the last element (last in array or the bottom left in a tree)
+   * in the heap container and lift it up until it is in the correct
+   * order with respect to its parent element.
+   * @param startIndex - start index.
+   */
+  protected heapifyUp(startIndex?: number): void {
     let currentIndex = startIndex || this.size() - 1;
 
     while (
@@ -67,10 +123,12 @@ export default abstract class Heap<TItem> {
     }
   }
 
+  /**
+   * Compares the parent element to its children and swap parent with the appropriate
+   * child (smallest child for MinHeap, largest child for MaxHeap).
+   * @param startIndex
+   */
   protected heapifyDown(startIndex = 0): void {
-    // Compare the parent element to its children and swap parent with the appropriate
-    // child (smallest child for MinHeap, largest child for MaxHeap).
-    // Do the same for next children after swap.
     let currentIndex = startIndex;
     let nextIndex = -1;
 
@@ -93,14 +151,27 @@ export default abstract class Heap<TItem> {
     }
   }
 
-  protected order(left: TItem, right: TItem): boolean {
+  /**
+   * This is comparator that checks the order of the list.
+   * In MaxHeap left > right and in MinHeap left < right.
+   * * This method must be override in the subclass.
+   * @param left - left item.
+   * @param right - right item.
+   */
+  protected order(left: Item, right: Item): boolean {
     throw new Error(`
       You have to implement heap pair comparision method
       for ${left} and ${right} values.
       `);
   }
 
-  find(item: TItem, comparator = this.compare): number[] {
+  /**
+   * Finds item in the list with optional comparator function.
+   * @param item - the given item to find.
+   * @param comparator - optional comparator, by default uses: Comparator.naturalOrder.
+   * @returns - array of indices.
+   */
+  public find(item: Item, comparator = this.compare): number[] {
     const foundItemIndices: number[] = [];
     for (let itemIndex = 0; itemIndex < this.size(); itemIndex += 1) {
       if (comparator.equal(item, this.heap[itemIndex])) {
@@ -110,30 +181,49 @@ export default abstract class Heap<TItem> {
     return foundItemIndices;
   }
 
-  add(item: TItem): Heap<TItem> {
+  /**
+   * Adds item to the heap and heapifies up.
+   * @param item - the item to add.
+   * @returns - this.
+   */
+  public add(item: Item): Heap<Item> {
     this.heap.push(item);
     this.heapifyUp();
     return this;
   }
 
-  peek(): Nullable<TItem> {
+  /**
+   * Returns the top item without removing it.
+   * @returns
+   */
+  public peek(): Nullable<Item> {
     if (this.size() === 0) return null;
     return this.heap[0];
   }
 
-  poll(): Nullable<TItem> {
+  /**
+   * Retrieves and removes the head of this queue, or returns null if this queue is empty.
+   * @returns - head item or null.
+   */
+  public poll(): Nullable<Item> {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
 
     const item = this.heap[0];
     // Move the last element from the end to the head.
-    this.heap[0] = this.heap.pop() as TItem;
+    this.heap[0] = this.heap.pop() as Item;
     this.heapifyDown();
 
     return item;
   }
 
-  remove(item: TItem, comparator = this.compare): Heap<TItem> {
+  /**
+   * Remove items from the heap that are matched with the given item.
+   * @param item - the item to be removed.
+   * @param comparator - optional comparator.
+   * @returns - this.
+   */
+  remove(item: Item, comparator = this.compare): Heap<Item> {
     // Find number of items to remove.
     const numberOfItemsToRemove = this.find(item, comparator).length;
 
@@ -148,7 +238,7 @@ export default abstract class Heap<TItem> {
         this.heap.pop();
       } else {
         // Move last element in heap to the vacant (removed) position.
-        this.heap[indexToRemove] = this.heap.pop() as TItem;
+        this.heap[indexToRemove] = this.heap.pop() as Item;
         // Get parent.
         const parentItem = this.parent(indexToRemove);
         // If there is no parent or parent is in correct order with the node
@@ -167,14 +257,26 @@ export default abstract class Heap<TItem> {
     return this;
   }
 
+  /**
+   * Checks if the heap is empty.
+   * @returns - true if is empty and false otherwise.
+   */
   isEmpty(): boolean {
     return this.heap.length === 0;
   }
 
+  /**
+   * Returns the heap lenght.
+   * @returns
+   */
   size(): number {
     return this.heap.length;
   }
 
+  /**
+   * Invokes the heap{array} toString() method.
+   * @returns
+   */
   toString() {
     return this.heap.toString();
   }

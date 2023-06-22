@@ -1,14 +1,14 @@
-import PriorityQueue from "../priority-queue";
+import MinPriorityQueue from "../min-priority-queue";
 
 describe("PriorityQueue", () => {
   it("creates default priority queue", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     expect(priorityQueue).toBeDefined();
   });
 
   it("inserts items to the queue and respect priorities", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     expect(priorityQueue.peek()).toBe(10);
@@ -22,7 +22,7 @@ describe("PriorityQueue", () => {
 
   it("adds objects in priority queue", () => {
     type User = { name: string };
-    const priorityQueue = new PriorityQueue<User>();
+    const priorityQueue = new MinPriorityQueue<User>();
 
     const user1 = { name: "Mike" } as User;
     const user2 = { name: "Bill" } as User;
@@ -39,7 +39,7 @@ describe("PriorityQueue", () => {
   });
 
   it("polls from queue with respect to priorities", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     priorityQueue.add(5, 2);
@@ -53,7 +53,7 @@ describe("PriorityQueue", () => {
   });
 
   it("changes priority of head node", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     priorityQueue.add(5, 2);
@@ -72,7 +72,7 @@ describe("PriorityQueue", () => {
   });
 
   it("changes priority of internal nodes", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     priorityQueue.add(5, 2);
@@ -91,7 +91,7 @@ describe("PriorityQueue", () => {
   });
 
   it("changes priority along with node addition", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     priorityQueue.add(5, 2);
@@ -111,7 +111,7 @@ describe("PriorityQueue", () => {
   });
 
   it("searchs in priority queue by value", () => {
-    const priorityQueue = new PriorityQueue();
+    const priorityQueue = new MinPriorityQueue();
 
     priorityQueue.add(10, 1);
     priorityQueue.add(5, 2);
