@@ -2,11 +2,11 @@ import Comparator from "@/comparator/comparator";
 import MinHeap from "../heap/min-heap";
 
 export default class PriorityQueue<Item> extends MinHeap<Item> {
-  private _priorities: Map<Item, number>;
+  private queue: Map<Item, number>;
 
   constructor() {
     super();
-    this._priorities = new Map();
+    this.queue = new Map();
     this.compare = new Comparator(this.comparePriority.bind(this));
   }
 
@@ -17,7 +17,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @returns this.
    */
   add(item: Item, priority = 0): PriorityQueue<Item> {
-    this._priorities.set(item, priority);
+    this.queue.set(item, priority);
     super.add(item);
     return this;
   }
@@ -30,7 +30,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    */
   remove(item: Item, comparator?: Comparator<Item>): PriorityQueue<Item> {
     super.remove(item, comparator);
-    this._priorities.delete(item);
+    this.queue.delete(item);
     return this;
   }
 
@@ -71,9 +71,9 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @return {number}
    */
   comparePriority(a: Item, b: Item): number {
-    if (this._priorities.get(a) === this._priorities.get(b)) {
+    if (this.queue.get(a) === this.queue.get(b)) {
       return 0;
     }
-    return this._priorities.get(a)! < this._priorities.get(b)! ? -1 : 1;
+    return this.queue.get(a)! < this.queue.get(b)! ? -1 : 1;
   }
 }
