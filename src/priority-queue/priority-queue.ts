@@ -1,8 +1,8 @@
 import Comparator from "@/comparator/comparator";
 import MinHeap from "../heap/min-heap";
 
-export default class PriorityQueue<Element> extends MinHeap<Element> {
-  private _priorities: Map<Element, number>;
+export default class PriorityQueue<Item> extends MinHeap<Item> {
+  private _priorities: Map<Item, number>;
 
   constructor() {
     super();
@@ -11,12 +11,12 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
   }
 
   /**
-   * Add item to the priority queue.
-   * @param {*} item - item we're going to add to the queue.
-   * @param {number} [priority] - items priority.
-   * @return {PriorityQueue}
+   * Adds item to the priority queue.
+   * @param item
+   * @param priority
+   * @returns
    */
-  add(item: Element, priority = 0): PriorityQueue<Element> {
+  add(item: Item, priority = 0): PriorityQueue<Item> {
     this._priorities.set(item, priority);
     super.add(item);
     return this;
@@ -28,10 +28,7 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
    * @param {Comparator} [customFindingComparator] - custom function for finding the item to remove
    * @return {PriorityQueue}
    */
-  remove(
-    item: Element,
-    comparator?: Comparator<Element>
-  ): PriorityQueue<Element> {
+  remove(item: Item, comparator?: Comparator<Item>): PriorityQueue<Item> {
     super.remove(item, comparator);
     this._priorities.delete(item);
     return this;
@@ -43,7 +40,7 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
    * @param {number} priority - new item's priority.
    * @return {PriorityQueue}
    */
-  changePriority(item: Element, priority: number): PriorityQueue<Element> {
+  changePriority(item: Item, priority: number): PriorityQueue<Item> {
     this.remove(item, new Comparator(this.compareValue));
     this.add(item, priority);
     return this;
@@ -54,7 +51,7 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
    * @param {*} item
    * @return {Number[]}
    */
-  findByValue(item: Element): number[] {
+  findByValue(item: Item): number[] {
     return this.find(item, new Comparator(this.compareValue));
   }
 
@@ -63,7 +60,7 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
    * @param {*} item
    * @return {boolean}
    */
-  hasValue(item: Element): boolean {
+  hasValue(item: Item): boolean {
     return this.findByValue(item).length > 0;
   }
 
@@ -73,7 +70,7 @@ export default class PriorityQueue<Element> extends MinHeap<Element> {
    * @param {*} b
    * @return {number}
    */
-  comparePriority(a: Element, b: Element): number {
+  comparePriority(a: Item, b: Item): number {
     if (this._priorities.get(a) === this._priorities.get(b)) {
       return 0;
     }
