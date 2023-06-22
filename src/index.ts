@@ -1,8 +1,14 @@
+export { default as BinarySearch } from "./binary-search/binary-search";
+export { default as Comparator } from "./comparator/comparator";
 export { default as HashTable } from "./hash-table/hash-table";
 export { default as MaxHeap } from "./heap/max-heap";
 export { default as MinHeap } from "./heap/min-heap";
+export { default as LinearSearch } from "./linear-search/linear-search";
 export { default as LinkedList } from "./linked-list/linked-list";
 export { default as LinkedListNode } from "./linked-list/linked-list-node";
-export { default as PriorityQueue } from "./priority-queue/priority-queue";
+export { default as MaxPriorityQueue } from "./priority-queue/max-priority-queue";
+export { default as MinPriorityQueue } from "./priority-queue/min-priority-queue";
+export { default as Queue } from "./queue/queue";
+export { default as Stack } from "./stack/stack";
 export { default as Trie } from "./trie/trie";
 export { default as TrieNode } from "./trie/trie-node";
