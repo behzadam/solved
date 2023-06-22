@@ -21,11 +21,12 @@ describe("PriorityQueue", () => {
   });
 
   it("adds objects in priority queue", () => {
-    const priorityQueue = new PriorityQueue();
+    type User = { name: string };
+    const priorityQueue = new PriorityQueue<User>();
 
-    const user1 = { name: "Mike" };
-    const user2 = { name: "Bill" };
-    const user3 = { name: "Jane" };
+    const user1 = { name: "Mike" } as User;
+    const user2 = { name: "Bill" } as User;
+    const user3 = { name: "Jane" } as User;
 
     priorityQueue.add(user1, 1);
     expect(priorityQueue.peek()).toBe(user1);
