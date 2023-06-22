@@ -1,95 +1,84 @@
 import Comparator from "@/comparator/comparator";
 import MinHeap from "../heap/min-heap";
 
-export default class PriorityQueue<TKey> extends MinHeap<TKey> {
-  private _priorities: Map<TKey, number>;
+export default class PriorityQueue<Item> extends MinHeap<Item> {
+  private queue: Map<Item, number>;
 
   constructor() {
     super();
-    this._priorities = new Map();
-
-    // Use custom comparator for heap elements that will take element priority
-    // instead of element value into account.
-    this.compare = new Comparator(this.comparePriority.bind(this));
+    this.queue = new Map<Item, number>();
+    this.compare = new Comparator(this.internalComparator.bind(this));
   }
 
   /**
-   * Add item to the priority queue.
-   * @param {*} item - item we're going to add to the queue.
-   * @param {number} [priority] - items priority.
-   * @return {PriorityQueue}
+   * Internal comparator function that compares two items,
+   * based on their positions in the queue.
+   * @param left - left item to compare.
+   * @param right - right item to compare.
+   * @returns - 0 | 1 | -1
    */
-  add(item: TKey, priority = 0): PriorityQueue<TKey> {
-    this._priorities.set(item, priority);
+  private internalComparator(left: Item, right: Item): number {
+    if (this.queue.get(left) === this.queue.get(right)) {
+      return 0;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.queue.get(left)! < this.queue.get(right)! ? -1 : 1;
+  }
+
+  /**
+   * Adds item to the priority queue.
+   * @param item - item to add.
+   * @param priority - item priority.
+   * @returns this.
+   */
+  public add(item: Item, priority = 0): PriorityQueue<Item> {
+    this.queue.set(item, priority);
     super.add(item);
     return this;
   }
 
   /**
-   * Remove item from priority queue.
-   * @param {*} item - item we're going to remove.
-   * @param {Comparator} [customFindingComparator] - custom function for finding the item to remove
-   * @return {PriorityQueue}
+   * Removes item from priority queue.
+   * @param item - item to remove.
+   * @param comparator - optional custom comparator.
+   * @returns - this.
    */
-  remove(item: TKey, comparator?: Comparator<TKey>): PriorityQueue<TKey> {
+  public remove(
+    item: Item,
+    comparator?: Comparator<Item>
+  ): PriorityQueue<Item> {
     super.remove(item, comparator);
-    this._priorities.delete(item);
+    this.queue.delete(item);
     return this;
   }
 
   /**
-   * Change priority of the item in a queue.
-   * @param {*} item - item we're going to re-prioritize.
-   * @param {number} priority - new item's priority.
-   * @return {PriorityQueue}
+   * Changes the priority of an item in the queue.
+   * @param item - item to re-prioritize.
+   * @param priority - new item's priority.
+   * @returns - this.
    */
-  changePriority(item: TKey, priority: number): PriorityQueue<TKey> {
-    this.remove(item, new Comparator(this.compareValue));
+  public changePriority(item: Item, priority: number): PriorityQueue<Item> {
+    this.remove(item, new Comparator(Comparator.naturalOrder()));
     this.add(item, priority);
     return this;
   }
 
   /**
-   * Find item by ite value.
-   * @param {*} item
-   * @return {Number[]}
+   * Finds items in the queue and returns the indices.
+   * @param item
+   * @returns array of indices.
    */
-  findByValue(item: TKey): number[] {
-    return this.find(item, new Comparator(this.compareValue));
+  public findByValue(item: Item): number[] {
+    return this.find(item, new Comparator(Comparator.naturalOrder()));
   }
 
   /**
-   * Check if item already exists in a queue.
-   * @param {*} item
-   * @return {boolean}
+   * Checks if a given item already exists in the queue.
+   * @param item - the given item to check.
+   * @returns - true if the item exists, false if is not exists.
    */
-  hasValue(item: TKey): boolean {
+  public isExists(item: Item): boolean {
     return this.findByValue(item).length > 0;
-  }
-
-  /**
-   * Compares priorities of two items.
-   * @param {*} a
-   * @param {*} b
-   * @return {number}
-   */
-  comparePriority(a: TKey, b: TKey): number {
-    if (this._priorities.get(a) === this._priorities.get(b)) {
-      return 0;
-    }
-    return this._priorities.get(a)! < this._priorities.get(b)! ? -1 : 1;
-  }
-
-  /**
-   * Compares values of two items.
-   * @param {*} a
-   * @param {*} b
-   * @return {number}
-   */
-  compareValue(a: any, b: any): number {
-    if (a === b) {
-      return 0;
-    }
-    return a < b ? -1 : 1;
   }
 }
