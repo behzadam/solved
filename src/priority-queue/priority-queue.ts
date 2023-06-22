@@ -12,9 +12,9 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
 
   /**
    * Adds item to the priority queue.
-   * @param item
-   * @param priority
-   * @returns
+   * @param item - item to add.
+   * @param priority - item priority.
+   * @returns this.
    */
   add(item: Item, priority = 0): PriorityQueue<Item> {
     this._priorities.set(item, priority);
@@ -23,10 +23,10 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
   }
 
   /**
-   * Remove item from priority queue.
-   * @param {*} item - item we're going to remove.
-   * @param {Comparator} [customFindingComparator] - custom function for finding the item to remove
-   * @return {PriorityQueue}
+   * Removes item from priority queue.
+   * @param item - item to remove.
+   * @param comparator - optional custom comparator.
+   * @returns - this.
    */
   remove(item: Item, comparator?: Comparator<Item>): PriorityQueue<Item> {
     super.remove(item, comparator);
@@ -35,10 +35,10 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
   }
 
   /**
-   * Change priority of the item in a queue.
-   * @param {*} item - item we're going to re-prioritize.
-   * @param {number} priority - new item's priority.
-   * @return {PriorityQueue}
+   * Changes the priority of an item in the queue.
+   * @param item - item to re-prioritize.
+   * @param priority - new item's priority.
+   * @returns - this.
    */
   changePriority(item: Item, priority: number): PriorityQueue<Item> {
     this.remove(item, new Comparator(this.compareValue));
@@ -47,20 +47,20 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
   }
 
   /**
-   * Find item by ite value.
-   * @param {*} item
-   * @return {Number[]}
+   * Finds items in the queue and returns the indices.
+   * @param item
+   * @returns array of indices.
    */
   findByValue(item: Item): number[] {
     return this.find(item, new Comparator(this.compareValue));
   }
 
   /**
-   * Check if item already exists in a queue.
-   * @param {*} item
-   * @return {boolean}
+   * Checks if a given item already exists in the queue.
+   * @param item - the given item to check.
+   * @returns - true if the item exists, false if is not exists.
    */
-  hasValue(item: Item): boolean {
+  isExists(item: Item): boolean {
     return this.findByValue(item).length > 0;
   }
 
