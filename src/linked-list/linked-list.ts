@@ -3,12 +3,31 @@ import { ComparatorFunction } from "@/comparator/comparator-function";
 import { Nullable } from "@/types";
 import LinkedListNode from "./linked-list-node";
 
-// Finding a node by value or filter condition.
-// Make sure that at least argument is required.
+/**
+ * Finding a node by value or a callback funtion.
+ * @internal
+ */
 type FindOptions<Value> = Partial<
   Required<{ value: Value; filter: (value: Value) => boolean }>
 >;
 
+/**
+ * A linked list is a linear data structure consisting of a sequence of elements known as nodes.
+ * Each node contains two parts: the data and a reference to the next node in the sequence.
+ *
+ * Unlike arrays, linked lists do not require contiguous memory allocation.
+ * Each node is dynamically allocated and can be scattered in different memory locations.
+ * The connection between nodes is established through pointers or references.
+ *
+ * Linked lists provide flexibility in terms of insertion and deletion compared to arrays,
+ * as they do not require shifting elements to accommodate changes.
+ * However, accessing a specific element in a linked list requires traversing through the nodes from the head,
+ * which can be slower than direct indexing in arrays.
+ * Linked lists are used in various scenarios,
+ * such as implementing stacks, queues, hash tables, and as the foundation for more complex data structures like graphs and trees.
+ *
+ * @public
+ */
 export default class LinkedList<Value> {
   public head: Nullable<LinkedListNode<Value>>;
   public tail: Nullable<LinkedListNode<Value>>;
