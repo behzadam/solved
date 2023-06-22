@@ -6,15 +6,23 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
 
   constructor() {
     super();
-    this.queue = new Map();
+    this.queue = new Map<Item, number>();
     this.compare = new Comparator(this.internalComparator.bind(this));
   }
 
-  private internalComparator(a: Item, b: Item): number {
-    if (this.queue.get(a) === this.queue.get(b)) {
+  /**
+   * Internal comparator function that compares two items,
+   * based on their positions in the queue.
+   * @param left - left item to compare.
+   * @param right - right item to compare.
+   * @returns - 0 | 1 | -1
+   */
+  private internalComparator(left: Item, right: Item): number {
+    if (this.queue.get(left) === this.queue.get(right)) {
       return 0;
     }
-    return this.queue.get(a)! < this.queue.get(b)! ? -1 : 1;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.queue.get(left)! < this.queue.get(right)! ? -1 : 1;
   }
 
   /**
@@ -23,7 +31,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @param priority - item priority.
    * @returns this.
    */
-  add(item: Item, priority = 0): PriorityQueue<Item> {
+  public add(item: Item, priority = 0): PriorityQueue<Item> {
     this.queue.set(item, priority);
     super.add(item);
     return this;
@@ -35,7 +43,10 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @param comparator - optional custom comparator.
    * @returns - this.
    */
-  remove(item: Item, comparator?: Comparator<Item>): PriorityQueue<Item> {
+  public remove(
+    item: Item,
+    comparator?: Comparator<Item>
+  ): PriorityQueue<Item> {
     super.remove(item, comparator);
     this.queue.delete(item);
     return this;
@@ -47,7 +58,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @param priority - new item's priority.
    * @returns - this.
    */
-  changePriority(item: Item, priority: number): PriorityQueue<Item> {
+  public changePriority(item: Item, priority: number): PriorityQueue<Item> {
     this.remove(item, new Comparator(Comparator.naturalOrder()));
     this.add(item, priority);
     return this;
@@ -58,7 +69,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @param item
    * @returns array of indices.
    */
-  findByValue(item: Item): number[] {
+  public findByValue(item: Item): number[] {
     return this.find(item, new Comparator(Comparator.naturalOrder()));
   }
 
@@ -67,7 +78,7 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    * @param item - the given item to check.
    * @returns - true if the item exists, false if is not exists.
    */
-  isExists(item: Item): boolean {
+  public isExists(item: Item): boolean {
     return this.findByValue(item).length > 0;
   }
 }
