@@ -5,7 +5,7 @@ import { Nullable } from "@/types";
  * * This class is just to inheritance.
  */
 export default abstract class Heap<Item> {
-  public heap: Item[];
+  protected heap: Item[];
   protected compare: Comparator<Item>;
 
   constructor(comparator?: ComparatorFunction<Item>) {
