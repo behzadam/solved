@@ -7,7 +7,14 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
   constructor() {
     super();
     this.queue = new Map();
-    this.compare = new Comparator(this.comparePriority.bind(this));
+    this.compare = new Comparator(this.internalComparator.bind(this));
+  }
+
+  private internalComparator(a: Item, b: Item): number {
+    if (this.queue.get(a) === this.queue.get(b)) {
+      return 0;
+    }
+    return this.queue.get(a)! < this.queue.get(b)! ? -1 : 1;
   }
 
   /**
@@ -62,18 +69,5 @@ export default class PriorityQueue<Item> extends MinHeap<Item> {
    */
   isExists(item: Item): boolean {
     return this.findByValue(item).length > 0;
-  }
-
-  /**
-   * Compares priorities of two items.
-   * @param {*} a
-   * @param {*} b
-   * @return {number}
-   */
-  comparePriority(a: Item, b: Item): number {
-    if (this.queue.get(a) === this.queue.get(b)) {
-      return 0;
-    }
-    return this.queue.get(a)! < this.queue.get(b)! ? -1 : 1;
   }
 }
