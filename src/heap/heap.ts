@@ -1,11 +1,11 @@
 import { Comparator, ComparatorFunction } from "@/comparator";
 import { Nullable } from "@/types";
 
-export default abstract class Heap<TItem> {
-  protected heap: TItem[];
-  protected compare: Comparator<TItem>;
+export default abstract class Heap<Item> {
+  protected heap: Item[];
+  protected compare: Comparator<Item>;
 
-  constructor(comparator?: ComparatorFunction<TItem>) {
+  constructor(comparator?: ComparatorFunction<Item>) {
     this.heap = [];
     this.compare = new Comparator(comparator);
   }
@@ -34,15 +34,15 @@ export default abstract class Heap<TItem> {
     return this.getRightChildIndex(parentIndex) < this.heap.length;
   }
 
-  protected leftChild(parentIndex: number): TItem {
+  protected leftChild(parentIndex: number): Item {
     return this.heap[this.getLeftChildIndex(parentIndex)];
   }
 
-  protected rightChild(parentIndex: number): TItem {
+  protected rightChild(parentIndex: number): Item {
     return this.heap[this.getRightChildIndex(parentIndex)];
   }
 
-  protected parent(childIndex: number): TItem {
+  protected parent(childIndex: number): Item {
     return this.heap[this.getParentIndex(childIndex)];
   }
 
@@ -93,14 +93,14 @@ export default abstract class Heap<TItem> {
     }
   }
 
-  protected order(left: TItem, right: TItem): boolean {
+  protected order(left: Item, right: Item): boolean {
     throw new Error(`
       You have to implement heap pair comparision method
       for ${left} and ${right} values.
       `);
   }
 
-  find(item: TItem, comparator = this.compare): number[] {
+  find(item: Item, comparator = this.compare): number[] {
     const foundItemIndices: number[] = [];
     for (let itemIndex = 0; itemIndex < this.size(); itemIndex += 1) {
       if (comparator.equal(item, this.heap[itemIndex])) {
@@ -110,30 +110,30 @@ export default abstract class Heap<TItem> {
     return foundItemIndices;
   }
 
-  add(item: TItem): Heap<TItem> {
+  add(item: Item): Heap<Item> {
     this.heap.push(item);
     this.heapifyUp();
     return this;
   }
 
-  peek(): Nullable<TItem> {
+  peek(): Nullable<Item> {
     if (this.size() === 0) return null;
     return this.heap[0];
   }
 
-  poll(): Nullable<TItem> {
+  poll(): Nullable<Item> {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
 
     const item = this.heap[0];
     // Move the last element from the end to the head.
-    this.heap[0] = this.heap.pop() as TItem;
+    this.heap[0] = this.heap.pop() as Item;
     this.heapifyDown();
 
     return item;
   }
 
-  remove(item: TItem, comparator = this.compare): Heap<TItem> {
+  remove(item: Item, comparator = this.compare): Heap<Item> {
     // Find number of items to remove.
     const numberOfItemsToRemove = this.find(item, comparator).length;
 
@@ -148,7 +148,7 @@ export default abstract class Heap<TItem> {
         this.heap.pop();
       } else {
         // Move last element in heap to the vacant (removed) position.
-        this.heap[indexToRemove] = this.heap.pop() as TItem;
+        this.heap[indexToRemove] = this.heap.pop() as Item;
         // Get parent.
         const parentItem = this.parent(indexToRemove);
         // If there is no parent or parent is in correct order with the node
