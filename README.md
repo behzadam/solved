@@ -30,6 +30,8 @@ Please note that the repository is still a work in progress, and new algorithms 
 
 ## Getting Started
 
+ُTo see the current task please, check [the Board](https://github.com/users/behzadam/projects/9).
+
 To get started with the repository, follow these simple steps:
 
 Clone the repository to your local machine using the command:
