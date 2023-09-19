@@ -26,6 +26,10 @@ The "TypeScript Algorithms, Data Structures and Patterns" repository aims to pro
 - [BinarySearch](src/binary-search/binary-search.ts) -> watch video: [YouTube](https://www.youtube.com/watch?v=tE9yPJuE5aY&t=13s)
 - [LinearSearch](src/linear-search/linear-search.ts)
 
+### Code challanges
+
+- [Transpose Matrix](src/problem/transpose-matrix/transpose-matrix.ts)
+
 Please note that the repository is still a work in progress, and new algorithms and patterns will be added over time.
 
 ## Getting Started
