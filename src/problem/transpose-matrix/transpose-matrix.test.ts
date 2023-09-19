@@ -21,12 +21,12 @@ describe("transposeMatrix", () => {
       [3, 6, 9],
     ]);
 
-    // expect(transposeMatrix([[1, 2, 3], [4, 5, 6], [7]])).toEqual([
-    //   [1, 4, 7],
-    //   [2, 5],
-    //   [3, 6],
-    // ]);
+    expect(transposeMatrix([[1, 2, 3], [4, 5, 6], [7]])).toEqual([
+      [1, 4, 7],
+      [2, 5],
+      [3, 6],
+    ]);
 
-    // expect(transposeMatrix([[1, 2]])).toEqual([[1], [2]]);
+    expect(transposeMatrix([[1, 2]])).toEqual([[1], [2]]);
   });
 });
