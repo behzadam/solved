@@ -13,6 +13,7 @@ import {
   Stack,
   Trie,
   TrieNode,
+  transposeMatrix,
 } from "./";
 
 describe("Export Modules", () => {
@@ -31,6 +32,7 @@ describe("Export Modules", () => {
     [Stack.name],
     [Queue.name],
     [Comparator.name],
+    transposeMatrix,
   ])("imports %s", (expected) => {
     expect(expected).not.toBeNull();
   });
