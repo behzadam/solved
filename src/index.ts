@@ -8,6 +8,7 @@ export { default as LinkedList } from "./linked-list/linked-list";
 export { default as LinkedListNode } from "./linked-list/linked-list-node";
 export { default as MaxPriorityQueue } from "./priority-queue/max-priority-queue";
 export { default as MinPriorityQueue } from "./priority-queue/min-priority-queue";
+export * from "./problem/transpose-matrix/transpose-matrix";
 export { default as Queue } from "./queue/queue";
 export { default as Stack } from "./stack/stack";
 export { default as Trie } from "./trie/trie";
