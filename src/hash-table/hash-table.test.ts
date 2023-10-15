@@ -1,9 +1,9 @@
-import HashTable from "../hash-table";
+import HashTable from "./hash-table";
 
 describe("HashTable", () => {
   it("should create hash table of certain size", () => {
-    const defaultHashTable = new HashTable(3);
-    expect(defaultHashTable.size()).toBe(3);
+    const defaultHashTable = new HashTable();
+    expect(defaultHashTable.size()).toBe(32);
 
     const biggerHashTable = new HashTable(64);
     expect(biggerHashTable.size()).toBe(64);
