@@ -2,6 +2,12 @@ import { Comparator } from "@/comparator";
 import LinkedList from "@/linked-list/linked-list";
 import { Pair } from "@/types/pair";
 
+/**
+ * Hash table (also known as a hash map) is a data structure that allows efficient
+ * insertion, deletion, and retrieval of key-value pairs.
+ * It uses a hash function to map keys to indices in an array, where the corresponding values are stored.
+ * The hash function takes the key as input and computes a hash code, which is used to determine the index.
+ */
 export default class HashTable<Value> {
   private buckets: LinkedList<Pair<Value>>[];
   private keys: Record<string, number> = {};
