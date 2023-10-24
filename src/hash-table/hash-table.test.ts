@@ -1,7 +1,7 @@
 import HashTable from "./hash-table";
 
 describe("HashTable", () => {
-  it("should create hash table of certain size", () => {
+  it("creates hash table of certain size", () => {
     const defaultHashTable = new HashTable();
     expect(defaultHashTable.size()).toBe(32);
 
@@ -9,7 +9,7 @@ describe("HashTable", () => {
     expect(biggerHashTable.size()).toBe(64);
   });
 
-  it("should set, read and delete data with collisions", () => {
+  it("sets, reads and delete data with collisions", () => {
     const hashTable = new HashTable<string>(3);
 
     hashTable.set("a", "sky-old");
@@ -37,7 +37,7 @@ describe("HashTable", () => {
     expect(hashTable.get("d")).toBe("ocean-new");
   });
 
-  it("should be possible to add objects to hash table", () => {
+  it("adds objects to hash table", () => {
     const hashTable = new HashTable<{ prop1: string; prop2: string }>();
 
     hashTable.set("objectKey", { prop1: "a", prop2: "b" });
@@ -48,7 +48,7 @@ describe("HashTable", () => {
     expect(object?.prop2).toBe("b");
   });
 
-  it("should track actual keys", () => {
+  it("tracks actual keys", () => {
     const hashTable = new HashTable(3);
 
     hashTable.set("a", "sky-old");
@@ -68,7 +68,7 @@ describe("HashTable", () => {
     expect(hashTable.has("x")).toBe(false);
   });
 
-  it("should get all the values", () => {
+  it("gets all the values", () => {
     const hashTable = new HashTable(3);
 
     hashTable.set("a", "alpha");
@@ -78,12 +78,12 @@ describe("HashTable", () => {
     expect(hashTable.getValues()).toEqual(["gamma", "beta", "alpha"]);
   });
 
-  it("should get all the values from empty hash table", () => {
+  it("gets all the values from empty hash table", () => {
     const hashTable = new HashTable();
     expect(hashTable.getValues()).toEqual([]);
   });
 
-  it("should get all the values in case of hash collision", () => {
+  it("gets all the values in case of hash collision", () => {
     const hashTable = new HashTable(3);
 
     // Keys `ab` and `ba` in current implementation should result in one hash (one bucket).
