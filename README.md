@@ -23,7 +23,7 @@ The "TypeScript Algorithms, Data Structures and Patterns" repository aims to pro
 - [MaxPriorityQueue](src/priority-queue/max-priority-queue.ts)
 - [MinPriorityQueue](src/priority-queue/min-priority-queue.ts)
 - [Trie](src/trie/trie.ts)
-- [BinarySearch](src/binary-search/binary-search.ts) -> watch video: [YouTube](https://www.youtube.com/watch?v=tE9yPJuE5aY&t=13s)
+- [BinarySearch](src/ds/binary-search/binary-search.ts)
 - [LinearSearch](src/linear-search/linear-search.ts)
 
 ### Code challanges
