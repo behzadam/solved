@@ -1,8 +1,7 @@
-import { Comparator } from "../comparator";
 import { binarySearch } from "./binary-search";
 
 describe("binarySearch", () => {
-  it("searchs number in sorted array", () => {
+  it("finds number in sorted array", () => {
     expect(binarySearch([] as number[], 1)).toBe(-1);
     expect(binarySearch([1], 1)).toBe(0);
     expect(binarySearch([1, 2], 1)).toBe(0);
