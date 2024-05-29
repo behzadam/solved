@@ -34,8 +34,9 @@ This repository aims to provide a comprehensive collection of algorithms, data s
 
 - [Find missing numbers](src/challange/array/find-missing-numbers/find-missing-numbers.ts)
 - [Find max subarray](src/challange/array/find-max-subarray/find-max-subarray.ts)
-- [Max profit](src/challange/array/max-profit/max-profit.ts)
 - [Find majority element](src/challange/array/find-majority-element/find-majority-element.ts)
+- [Max profit](src/challange/array/max-profit/max-profit.ts)
+- [Move Zeroes](src/challange/array/move-zeroes/move-zeroes.ts)
 
 Please note that the repository is still a work in progress, and new algorithms and patterns will be added over time.
 
