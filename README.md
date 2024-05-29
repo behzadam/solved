@@ -33,6 +33,8 @@ This repository aims to provide a comprehensive collection of algorithms, data s
 #### Array
 
 - [Find missing numbers](src/challange/array/find-missing-numbers/find-missing-numbers.ts)
+- [Find max subarray](src/challange/array/find-max-subarray/find-max-subarray.ts)
+- [Max profit](src/challange/array/max-profit/max-profit.ts)
 
 Please note that the repository is still a work in progress, and new algorithms and patterns will be added over time.
 

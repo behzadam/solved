@@ -15,4 +15,6 @@ export * from "./data-structure/trie/trie";
 export * from "./data-structure/trie/trie-node";
 
 // Challange
-export * from "./challange/transpose-matrix/transpose-matrix";
+export * from "./challange/array/find-max-subarray/find-max-subarray";
+export * from "./challange/array/find-missing-numbers/find-missing-numbers";
+export * from "./challange/array/max-profit/max-profit";

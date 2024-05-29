@@ -4,37 +4,35 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug TypeScript in Node.js",
-      "preLaunchTask": "npm: build",
-      "program": "${workspaceFolder}/src/**/*.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "sourceMaps": true,
-      "smartStep": true,
-      "internalConsoleOptions": "openOnSessionStart",
-      "runtimeExecutable": "node"
+      "name": "Jest single run all tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": ["--verbose", "-i", "--no-cache"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     },
     {
       "type": "node",
-      "name": "vscode-jest-tests.v2",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": [
-        "--runInBand",
-        "--watchAll=false",
-        "--testNamePattern",
-        "${jest.testNamePattern}",
-        "--runTestsByPath",
-        "${jest.testFile}"
-      ],
-      "cwd": "${workspaceFolder}",
+      "name": "Jest watch all tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": ["--verbose", "-i", "--no-cache", "--watchAll"],
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "windows": {
-        "name": "Launch Jest",
-        "type": "node",
-        "request": "launch",
-        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-      }
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest watch current file",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      "args": [
+        "${fileBasename}",
+        "--verbose",
+        "-i",
+        "--no-cache",
+        "--watchAll"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
