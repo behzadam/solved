@@ -11,24 +11,28 @@ This repository is a collection of JavaScript algorithms, data structures, and d
 
 ## Introduction
 
-The "TypeScript Algorithms, Data Structures and Patterns" repository aims to provide a comprehensive collection of algorithms and data structures implemented in TypeScript. It also includes various design patterns commonly used in software development. I'm refactoring [JavaScript Algorithms](https://github.com/trekhleb/javascript-algorithms) from JavaScript to TypeScript.
+This repository aims to provide a comprehensive collection of algorithms, data structures, and design patterns implemented in TypeScript. It includes code and patterns from the "JavaScript Algorithms" repository, translated from JavaScript to TypeScript. [JavaScript Algorithms](https://github.com/trekhleb/javascript-algorithms)
 
-- [Comparator](src/comparator/comparator.ts)
-- [HashTable](src/hash-table/hash-table.ts)
-- [MinHeap](src/heap/min-heap.ts)
-- [MaxHeap](src/heap/max-heap.ts)
-- [LinkedList](src/linked-list/linked-list.ts)
-- [Queue](src/queue/queue.ts)
-- [Stack](src/stack/stack.ts)
-- [MaxPriorityQueue](src/priority-queue/max-priority-queue.ts)
-- [MinPriorityQueue](src/priority-queue/min-priority-queue.ts)
-- [Trie](src/trie/trie.ts)
-- [BinarySearch](src/ds/binary-search/binary-search.ts)
-- [LinearSearch](src/linear-search/linear-search.ts)
+### Data structure
+
+- [Comparator](src/data-structure/comparator/comparator.ts)
+- [HashTable](src/data-structure/hash-table/hash-table.ts)
+- [MinHeap](src/data-structure/heap/min-heap.ts)
+- [MaxHeap](src/data-structure/heap/max-heap.ts)
+- [LinkedList](src/data-structure/linked-list/linked-list.ts)
+- [Queue](src/data-structure/queue/queue.ts)
+- [Stack](src/data-structure/stack/stack.ts)
+- [MaxPriorityQueue](src/data-structure/priority-queue/max-priority-queue.ts)
+- [MinPriorityQueue](src/data-structure/priority-queue/min-priority-queue.ts)
+- [Trie](src/data-structure/trie/trie.ts)
+- [BinarySearch](src/data-structure/ds/binary-search/binary-search.ts)
+- [LinearSearch](src/data-structure/linear-search/linear-search.ts)
 
 ### Code challanges
 
-- [Transpose Matrix](src/problem/transpose-matrix/transpose-matrix.ts)
+#### Array
+
+- [Find missing numbers](src/challange/array/find-missing-numbers/find-missing-numbers.ts)
 
 Please note that the repository is still a work in progress, and new algorithms and patterns will be added over time.
 

@@ -1,15 +1,18 @@
-export * from "./ds/binary-search/binary-search";
-// export { default as Comparator } from "./comparator/comparator";
-// export { default as HashTable } from "./hash-table/hash-table";
-// export { default as MaxHeap } from "./heap/max-heap";
-// export { default as MinHeap } from "./heap/min-heap";
-// export { default as LinearSearch } from "./linear-search/linear-search";
-// export { default as LinkedList } from "./linked-list/linked-list";
-// export { default as LinkedListNode } from "./linked-list/linked-list-node";
-// export { default as MaxPriorityQueue } from "./priority-queue/max-priority-queue";
-// export { default as MinPriorityQueue } from "./priority-queue/min-priority-queue";
-// export * from "./problem/transpose-matrix/transpose-matrix";
-// export { default as Queue } from "./queue/queue";
-// export { default as Stack } from "./stack/stack";
-// export { default as Trie } from "./trie/trie";
-// export { default as TrieNode } from "./trie/trie-node";
+// Data structure
+export * from "./data-structure/binary-search/binary-search";
+export * from "./data-structure/comparator/comparator";
+export * from "./data-structure/hash-table/hash-table";
+export * from "./data-structure/heap/max-heap";
+export * from "./data-structure/heap/min-heap";
+export * from "./data-structure/linear-search/linear-search";
+export * from "./data-structure/linked-list/linked-list";
+export * from "./data-structure/linked-list/linked-list-node";
+export * from "./data-structure/priority-queue/max-priority-queue";
+export * from "./data-structure/priority-queue/min-priority-queue";
+export * from "./data-structure/queue/queue";
+export * from "./data-structure/stack/stack";
+export * from "./data-structure/trie/trie";
+export * from "./data-structure/trie/trie-node";
+
+// Challange
+export * from "./challange/transpose-matrix/transpose-matrix";
