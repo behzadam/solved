@@ -6,11 +6,12 @@
       "request": "launch",
       "name": "Debug TypeScript in Node.js",
       "preLaunchTask": "npm: build",
-      "program": "${workspaceFolder}/src/index.ts",
+      "program": "${workspaceFolder}/src/**/*.ts",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "sourceMaps": true,
       "smartStep": true,
-      "internalConsoleOptions": "openOnSessionStart"
+      "internalConsoleOptions": "openOnSessionStart",
+      "runtimeExecutable": "node"
     },
     {
       "type": "node",
