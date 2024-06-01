@@ -38,6 +38,7 @@ This repository aims to provide a comprehensive collection of algorithms, data s
 - [Find Largest And Smallest](src/challange/array/find-largest-and-smallest/find-largest-and-smallest.ts)
 - [Max profit](src/challange/array/max-profit/max-profit.ts)
 - [Move Zeroes](src/challange/array/move-zeroes/move-zeroes.ts)
+- [Non-constructible Change](src/challange/array/non-constructible-change/non-constructible-change.ts)
 
 Please note that the repository is still a work in progress, and new algorithms and patterns will be added over time.
 
