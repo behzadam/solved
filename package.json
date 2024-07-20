@@ -1,7 +1,7 @@
 {
   "name": "solved",
   "version": "1.0.0",
-  "description": "Solved is my algorithms and data structures challenges and practices.",
+  "description": "Solved is my code practices and solutions in typescript.",
   "type": "module",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
